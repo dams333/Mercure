@@ -1,0 +1,44 @@
+stop:
+  description: "Arrête Mercure"
+  permissions:
+    - console
+  format:
+    - "!stop - Arrête Mercure et les bots liés proprement"
+  aliases: []
+bot:
+  description: "Gère les bots de cette instance de Mercure"
+  permissions:
+    - all
+  format:
+    - "!bot show - Affiche les bots reliés à Mercure"
+    - "!bot create <name> <token> - Ajoute un bot à Mercure"
+    - "!bot delete <name> - Retire un bot de Mercure"
+    - "!bot start <name> - Démarre er connecte le bot à Discord"
+    - "!bot stop <name> - Éteint er déconnecte le bot de Discord"
+    - "!bot presence <name> <online|dnd|idle|offline> - Change la présence du bot"
+    - "!bot status <name> <message> - Change le message de status du bot"
+  aliases: []
+mercure:
+  description: "Affiche les informations de Mercure"
+  permissions:
+    - user
+  format:
+    - "!mercure - Donne les informations sur l'instance de Mercure et les plugins lancés"
+  aliases: []
+help:
+  description: "Affiche l'aide des commandes"
+  permissions:
+    - user
+  format:
+    - "!help - Affiche toutes les commandes disponibles"
+    - "!help <command> - Affiche l'aide d'une commande précise"
+  aliases:
+    - aide
+reload:
+  description: "Recharge les plugins"
+  permissions:
+    - console
+  format:
+    - "!reload - Recharge entièrement les plugins"
+  aliases:
+    - rl
