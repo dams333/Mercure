@@ -1,6 +1,5 @@
 package ch.dams333.mercure.core.bots.voiceBot.music;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,11 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-
+/**
+ * Util class for LavaPlayer
+ * @author NeutronStar
+ * @version 1.0.0
+ */
 public class MusicManager {
 
     private AudioPlayerManager manager;
@@ -31,11 +34,21 @@ public class MusicManager {
         MercureLogger.log(MercureLogger.LogType.DEBUG, "YOLO");
     }
 
+    
+    /** 
+     * @param guild
+     * @return MusicPlayer
+     */
     public synchronized MusicPlayer getPlayer(Guild guild){
         if(!players.containsKey(guild.getId())) players.put(guild.getId(), new MusicPlayer(manager.createPlayer(), guild));
         return players.get(guild.getId());
     }
 
+    
+    /** 
+     * @param channel
+     * @param source
+     */
     public void loadTrack(final TextChannel channel, final String source){
 
         MusicPlayer player = getPlayer(channel.getGuild());
@@ -73,6 +86,10 @@ public class MusicManager {
 
     }
 
+    
+    /** 
+     * @param guild
+     */
     public void stopTracks(Guild guild) {
         getPlayer(guild).getAudioPlayer().stopTrack();
     }

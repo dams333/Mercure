@@ -13,12 +13,33 @@ import net.dv8tion.jda.api.entities.User;
 import java.awt.*;
 import java.util.Date;
 
+/**
+ * Executing class of mercure command
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class MercureHelpCommand implements CommandExecutor {
+   /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+
+    /**
+     * Class' constructor
+     * @param main Mercure instance
+     * @since 1.0.0
+     */
     public MercureHelpCommand(Mercure main) {
         this.main = main;
     }
 
+    
+    /**
+     * Print the Mercure's help
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     @Override
     public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -74,6 +95,11 @@ public class MercureHelpCommand implements CommandExecutor {
         return false;
     }
 
+    
+    /**
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     @Override
     public boolean onConsoleCommand(MercureCommand command, String[] args) {
         return false;

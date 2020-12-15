@@ -1,14 +1,10 @@
 package ch.dams333.mercure.core.plugins;
 
 import ch.dams333.mercure.Mercure;
-import ch.dams333.mercure.core.commands.utils.CommandExecutor;
-import ch.dams333.mercure.core.commands.utils.MercureCommand;
-import ch.dams333.mercure.core.listener.Listener;
 import ch.dams333.mercure.utils.exceptions.NoClassException;
 import ch.dams333.mercure.utils.exceptions.NoInformationException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,37 +12,55 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+/**
+ * Plugin's manager
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class PluginManager {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+    /**
+     * List of all plugins
+     * @since 1.0.0
+     */
+    private List<MercurePluginInformation> pluginInformations;
 
+    /**
+     * Class' constructor
+     * @param mercure Mercure instance
+     * @since 1.0.0
+     */
     public PluginManager(Mercure mercure) {
         this.main = mercure;
         pluginInformations = new ArrayList<>();
     }
     
-    private List<MercurePluginInformation> pluginInformations;
-
+    /**
+     * Get all plugins
+     * @return List of MercurePluginInformation
+     * @since 1.0.0
+     */
     public List<MercurePluginInformation> getPluginInformations() {
         return pluginInformations;
     }
 
     /**
-     * Méthode pour charger les plugins
-     *
-     * @throws Exception
+     * Load plugins
+     * @throws Exception Missing information for plugin's load
+     * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     public void loadPlugins() throws Exception {
         List<File> tmpFile = new ArrayList<>();
 
@@ -143,6 +157,7 @@ public class PluginManager {
             }
 
             if(pluginClass == null){
+                jar.close();
                 throw new NoClassException("Impossible de trouver la class principale du plugin");
             }
 
@@ -157,7 +172,8 @@ public class PluginManager {
     }
 
     /**
-     * Méthode pour démarrer les plugins
+     * Start plugins
+     * @since 1.0.0
      */
     public void enablePlugins() {
         for(MercurePluginInformation info : pluginInformations){
@@ -166,7 +182,8 @@ public class PluginManager {
     }
 
     /**
-     * Méthode pour éteindre les plugins
+     * Clean stop of plugins
+     * @since 1.0.0
      */
     public void disablePlugins() {
         for(MercurePluginInformation info : pluginInformations){
@@ -183,7 +200,8 @@ public class PluginManager {
     }
 
     /**
-     * Méthode pour mettre à jour les plugins
+     * Update plugins
+     * @since 1.0.0
      */
     public void reloadPlugins(){
         for(MercurePluginInformation pluginInformation : pluginInformations){
@@ -208,7 +226,8 @@ public class PluginManager {
     }
 
     /**
-     * Méthode pour mettre à jour les fichiers de plugins
+     * Update plugins' files
+     * @since 1.0.0
      */
     private void replaceFiles() {
 

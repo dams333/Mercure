@@ -6,6 +6,7 @@ import ch.dams333.mercure.core.bots.voiceBot.music.MusicPlayer;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.exceptions.VoiceException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
+import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -21,21 +22,39 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Util class for the gestion of the bots' vocal's interactions
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class VoiceManager {
 
+    /**
+     * Main class instance
+     * @since 1.0.0
+     */
     private Mercure main;
+    /**
+     * Saving MusicManager for bot map
+     * @since 1.0.0
+     */
+    private Map<String, MusicManager> managers;
 
+    /**
+     * Class' constructor
+     * @param main Mercure instance
+     * @since 1.0.0
+     */
     public VoiceManager(Mercure main) {
         this.main = main;
         managers = new HashMap<>();
     }
 
-    private Map<String, MusicManager> managers;
-
     /**
-     * Métode pour récupérer le MusicManager d'un bot précis
-     * @param name : Nom du bot
-     * @return MusicManager associé (s'il n'existe pas, il sera créé)
+     * Get the MusicBot assoicated to a bot
+     * @param name Bot's name
+     * @return Associated MusicManager (If it does not exist, it will be created)
+     * @since 1.0.0
      */
     private MusicManager getManager(String name){
         if(managers.containsKey(name)){
@@ -49,17 +68,19 @@ public class VoiceManager {
     }
 
     /**
-     * Méthode pour récupérer le premier résultat de recherche sur Youtube
-     *
-     * @param search : Mots-clé de la recherche
+     * Get the first resul of a youtub search
+     * @param search KeyWords of the search
      * @return Youtube URL
-     * @throws IOException
-     * @throws ParseException
+     * @throws IOException Impossible to execute the API request
+     * @throws ParseException Impossible to read the result of the request
+     * @since 1.0.0
      */
     public String youtubeSearch(String search) throws IOException, ParseException {
         String keyword = search.replace(" ", "+");
 
-        String link = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=AIzaSyDCIs9TJ8GrGmzTpRllP8_6ai5tATnJPuQ";
+        YAMLConfiguration secret = new YAMLConfiguration(ClassLoader.getSystemResourceAsStream("ch/dams333/mercure/secret.yml"));
+
+        String link = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=" + secret.getString("googleAPI");
 
         try {
 
@@ -103,12 +124,12 @@ public class VoiceManager {
     }
 
     /**
-     * Méthode pour ajouter une piste audio à la file d'attent d'un bot
-     *
-     * @param name : Nom du bot
-     * @param track : AudioTrack à ajouter
-     * @param textChannel : Channel d'où provient l'action (nécessaire pour récupérer le bot sur le serveur)
-     * @throws NoBotException
+     * Add an AudioTrack to the playing list of a bot
+     * @param name Bot's name
+     * @param track AudioTrack to add
+     * @param textChannel A channel of the guild (needed to get the bot)
+     * @throws NoBotException The bot is not reachable
+     * @since 1.0.0
      */
     public void addTrack(String name, String track, TextChannel textChannel) throws NoBotException {
         if(main.botsManager.isBotByName(name)){
@@ -132,9 +153,10 @@ public class VoiceManager {
      * Méthode pour sauter la piste audio actuelle
      *
      * @param name : Nom du bot
-     * @param channel : Channel d'où provient l'action (nécessaire pour récupérer le bot sur le serveur)
-     * @throws NoBotException
-     * @throws VoiceException
+     * @param channel A channel of the guild (needed to get the bot)
+     * @throws NoBotExceptionThe The bot is not reachable
+     * @throws VoiceException There is nos track to skip
+     * @since 1.0.0
      */
     @SuppressWarnings("deprecation")
     public void skipTrack(String name, TextChannel channel) throws NoBotException, VoiceException {
@@ -164,9 +186,10 @@ public class VoiceManager {
      * Vider la liste d'attente du bot
      *
      * @param name : Nom du bot
-     * @param channel : Channel d'où provient l'action (nécessaire pour récupérer le bot sur le serveur)
-     * @throws NoBotException
-     * @throws VoiceException
+     * @param channel A channel of the guild (needed to get the bot)
+     * @throws NoBotExceptionThe The bot is not reachable
+     * @throws VoiceException There is no track in waiting list
+     * @since 1.0.0
      */
     public void clearTracks(String name, TextChannel channel) throws NoBotException, VoiceException {
         if(main.botsManager.isBotByName(name)){
@@ -196,8 +219,9 @@ public class VoiceManager {
      * Méthode pour stopper la musique d'un bot
      *
      * @param name : Nom du bot
-     * @param channel : Channel d'où provient l'action (nécessaire pour récupérer le bot sur le serveur)
-     * @throws NoBotException
+     * @param channel A channel of the guild (needed to get the bot)
+     * @throws NoBotException The bot is not reachable
+     * @since 1.0.0
      */
     public void stopMusic(String name, TextChannel channel) throws NoBotException {
         if(main.botsManager.isBotByName(name)){

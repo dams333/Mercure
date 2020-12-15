@@ -11,12 +11,33 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
 
+/**
+ * Executing class of help command
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class HelpCommand implements CommandExecutor {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+
+    /**
+     * Class' constructor
+     * @param main Mercure instance
+     * @since 1.0.0
+     */
     public HelpCommand(Mercure main) {
         this.main = main;
     }
 
+    
+    /**
+     * Detect type of help
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     @Override
     public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
         if(args.length != 1){
@@ -32,10 +53,10 @@ public class HelpCommand implements CommandExecutor {
     }
 
     /**
-     * Affiche l'aide d'une commande spécifique
-     *
-     * @param textChannel : Channel dans lequel afficher le message
-     * @param command : MercureCommand dont lesi nfos doivent être affichées
+     * Print specific command's help
+     * @param textChannel Channel where the message needs to be sended
+     * @param command MercureCommand's informations whose needs to be sended
+     * @since 1.0.0
      */
     private void printSpecialHelp(TextChannel textChannel, MercureCommand command) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -63,9 +84,9 @@ public class HelpCommand implements CommandExecutor {
     }
 
     /**
-     * Affiche la liste des commandes
-     *
-     * @param textChannel : Channel dans lequel afficher le message
+     * Print command's list
+     * @param textChannel Channel where the message needs to be sended
+     * @since 1.0.0
      */
     private void printGlobalHelp(TextChannel textChannel) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -89,6 +110,11 @@ public class HelpCommand implements CommandExecutor {
         }
     }
 
+    
+    /**
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     @Override
     public boolean onConsoleCommand(MercureCommand command, String[] args) {
         return false;

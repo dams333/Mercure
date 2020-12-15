@@ -4,3 +4,7 @@ javadoc
 out
 output
 target
+.classpath
+.project
+.settings
+secret.yml

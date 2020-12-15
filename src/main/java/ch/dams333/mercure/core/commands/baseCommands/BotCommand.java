@@ -5,37 +5,55 @@ import ch.dams333.mercure.core.commands.utils.CommandExecutor;
 import ch.dams333.mercure.core.commands.utils.MercureCommand;
 import ch.dams333.mercure.utils.logger.ConsoleColors;
 import ch.dams333.mercure.utils.logger.MercureLogger;
-import net.dv8tion.jda.api.AccountType;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import javax.security.auth.login.LoginException;
-
+/**
+ * Executing class of bot command
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class BotCommand implements CommandExecutor {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+
+    /**
+     * Class' constructor
+     * @param main Mercure instance
+     * @since 1.0.0
+     */
     public BotCommand(Mercure main) {
         this.main = main;
     }
 
+    /**
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     @Override
     public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
         return executeCommand(args);
     }
 
+    
+    /**
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     @Override
     public boolean onConsoleCommand(MercureCommand command, String[] args) {
         return executeCommand(args);
     }
 
     /**
-     * Méthode de la commande bot
-     *
-     * @param args : Arguments de la commande
-     * @return boolean
+     * Execute command
+     * @param args Command's arguments
+     * @return not used
+     * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     private boolean executeCommand(String[] args){
         if(args.length >= 1) {
             if (args[0].equalsIgnoreCase("create")) {

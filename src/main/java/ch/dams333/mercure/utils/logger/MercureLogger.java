@@ -5,13 +5,18 @@ import ch.dams333.mercure.Mercure;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Logger system for Mercure's console
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class MercureLogger {
 
     /**
-     * Méthode pour logger un message en console
-     *
-     * @param logType : Type de log
-     * @param message : Message à logger
+     * Log a message in console
+     * @param logType Type of log
+     * @param message Message to log
+     * @since 1.0.0
      */
     public static void log(LogType logType, String message){
         if(logType == LogType.SUB_INFO){
@@ -31,10 +36,10 @@ public class MercureLogger {
     }
 
     /**
-     * Méthode pour logger une erreur en console
-     *
-     * @param message : Message à logger
-     * @param e : Erreur à logger (uniquement si le paramètre de démarrage est "debug")
+     * Log an error in console
+     * @param message Message to log
+     * @param e Error to log (only if console type is on 'debug')
+     * @since 1.0.0
      */
     public static void log(String message, Exception e){
         Date date = new Date();
@@ -48,27 +53,72 @@ public class MercureLogger {
     }
 
     /**
-     * Types de log
+     * Enumeration of all types of log
+     * @since 1.0.0
      */
     public enum LogType{
+        /**
+         * Log of a classic information
+         * @since 1.0.0
+         */
         INFO("INFO", ConsoleColors.CYAN),
+         /**
+         * Log of a sub information
+         * @since 1.0.0
+         */
         SUB_INFO("", ConsoleColors.RESET),
+        /**
+         * Log of a debug message (only if console type is on 'debug')
+         * @since 1.0.0
+         */
         DEBUG("DEBUG", ConsoleColors.PURPLE),
+        /**
+         * Log of success message
+         * @since 1.0.0
+         */
         SUCESS("SUCESS", ConsoleColors.GREEN),
+        /**
+         * Log of an error message
+         * @since 1.0.0
+         */
         ERROR("ERROR", ConsoleColors.RED);
 
+        /**
+         * Name of log's type
+         * @since 1.0.0
+         */
         private String name;
+        /**
+         * Color of log
+         * @since 1.0.0
+         */
         private String color;
 
+        /**
+         * Class' constructor
+         * @param name Name of log's type
+         * @param color Color of log
+         * @since 1.0.0
+         */
         LogType(String name, String color) {
             this.name = name;
             this.color = color;
         }
 
+        /**
+         * Get the name of the log's type
+         * @return String
+         * @since 1.0.0
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         * Get the color of the log
+         * @return String
+         * @since 1.0.0
+         */
         public String getColor() {
             return color;
         }

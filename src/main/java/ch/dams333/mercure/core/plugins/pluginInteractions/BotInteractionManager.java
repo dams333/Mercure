@@ -10,97 +10,117 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
+/**
+ * Basic plugins' interactions' manager Class. Used to control the accesses of plugins
+ * @see BotsManager
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class BotInteractionManager {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
 
+    /**
+     * Class' constructor
+     * @param main Mercure instance
+     * @since 1.0.0
+     */
     public BotInteractionManager(Mercure main) {
         this.main = main;
     }
 
     /**
-     * Méthode d'interaction de plugin pour récupérer un bot spécifique
-     *
-     * @param name : Nom du bot
-     * @return JDA
-     * @throws NoBotException
+     * Get a specific bot
+     * @param name Bot's name
+     * @return Bot's JDA
+     * @throws NoBotException There is no bot with this name
+     * @since 1.0.0
      */
     public JDA getBot(String name) throws NoBotException {
         return main.botsManager.getBot(name);
     }
 
     /**
-     * Méthode d'interaction de plugin pour récupérer un bot aléatoire
-     *
-     * @return JDA
-     * @throws NoBotException
+     * MGet a random bot
+     * @return Bot's JDA
+     * @throws NoBotException There is no connected bot
+     * @since 1.0.0
      */
     public JDA getRandomBot() throws NoBotException {
         return main.botsManager.getRandomBot();
     }
 
     /**
-     * Méthode d'interaction de plugin pour connecter un bot en vocal
-     *
-     * @param name : Nom du bot
-     * @param channel : Channel dans lequel connecter le bot
-     * @throws NoBotException
+     * Connect a bot to vocal
+     * @param name Bot's name
+     * @param channel Channel to connect
+     * @throws NoBotException Impossible to get the bot
+     * @since 1.0.0
      */
     public void connectToVocal(String name, VoiceChannel channel) throws NoBotException {
         main.botsManager.connectToVocal(name, channel);
     }
 
     /**
-     * Méthode d'interaction de plugin pour ajouter une piste audio à un bot
-     *
-     * @param name : Nom du bot
-     * @param track : Piste à ajouter
-     * @param textChannel : Channel d'où vient l'ordre (nécessaire pour récupérer le bot
-     * @throws NoBotException
+     * Add an AudioTrack to a bot
+     * @see VoiceManager
+     * @param name Bot's name
+     * @param track Track to add
+     * @param textChannel Channel of the guild (needed to get the bot)
+     * @throws NoBotException Impossible to get the bot
+     * @since 1.0.0
      */
     public void addTrack(String name, String track, TextChannel textChannel) throws NoBotException {
         main.voiceManager.addTrack(name, track, textChannel);
     }
 
     /**
-     * Méthode d'interaction de plugin pour sauter la piste audio acutelle d'un bot
-     *
-     * @param name : Nom du bot
-     * @param channel : Channel d'où vient l'ordre (nécessaire pour récupérer le bot
-     * @throws NoBotException
+     * Skip current track of a bot
+     * @see VoiceManager
+     * @param name Bot's name
+     * @param channel Channel of the guild (needed to get the bot)
+     * @throws NoBotException Impossible to get the bot
+     * @since 1.0.0
      */
     public void skipTrack(String name, TextChannel channel) throws NoBotException, VoiceException {
         main.voiceManager.skipTrack(name, channel);
     }
 
     /**
-     * Méthode d'interaction de plugin pour vider la liste des pistes audio d'un bot
-     *
-     * @param name : Nom du bot
-     * @param channel : Channel d'où vient l'ordre (nécessaire pour récupérer le bot
-     * @throws NoBotException
+     * Clear audio list of a bot
+     * @see VoiceManager
+     * @param name Bot's name
+     * @param channel Channel of the guild (needed to get the bot)
+     * @throws NoBotException Impossible to get the bot
+     * @since 1.0.0
      */
     public void clearTeacks(String name, TextChannel channel) throws NoBotException, VoiceException {
         main.voiceManager.clearTracks(name, channel);
     }
 
     /**
-     * Méthode d'interaction de plugin pour déconnecter un bot du vocal
-     *
-     * @param name : Nom du bot
-     * @param channel : Channel d'où vient l'ordre (nécessaire pour récupérer le bot
-     * @throws NoBotException
+     * Disconnect a bot from VoiceChannel
+     * @see VoiceManager
+     * @param name Bot's name
+     * @param channel Channel of the guild (needed to get the bot)
+     * @throws NoBotException Impossible to get the bot
+     * @since 1.0.0
      */
     public void disconnectFromVocal(String name, TextChannel channel) throws NoBotException {
         main.botsManager.disconnectFromVocal(name, channel);
     }
 
     /**
-     * Méthode d'interaction de plugin pour faire une recherche youtube
-     *
-     * @param keeWords : recherche
+     * Make a youtube search
+     * @see VoiceManager
+     * @param keeWords Kee words
      * @return Youtube URL
-     * @throws IOException
-     * @throws ParseException
+     * @throws IOException Impossible to execute the request
+     * @throws ParseException Impossible to read the request
+     * @since 1.0.0
      */
     public String getYoutubeVideo(String keeWords) throws IOException, ParseException {
         return main.voiceManager.youtubeSearch(keeWords);

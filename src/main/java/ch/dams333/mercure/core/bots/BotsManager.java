@@ -4,7 +4,6 @@ import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -14,11 +13,43 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import javax.security.auth.login.LoginException;
 import java.util.*;
 
+/**
+ * All basing bots' comportment
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class BotsManager {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+    /**
+     * Map of the bots' tokens by there name
+     * @since 1.0.0
+     */
     private Map<String, String> botsTokens;
+    /**
+     * List, for all bots' names, that is started and connected to Discord
+     * @since 1.0.0
+     */
     private Map<String, Boolean> isConnected;
+    /**
+     * Map of the bots' tokens (only if they are Discord connected)
+     * @since 1.0.0
+     */
     private Map<String, JDA> jdas;
+    /**
+     * Map of the bot's VoiceChannel where they are connected (only if they are connected)
+     * @since 1.0.0
+     */
+    private Map<String, VoiceChannel> voiceConnected;
+
+    /**
+     * Class' constructor
+     * @param mercure Mercure instance
+     * @since 1.0.0
+     */
     public BotsManager(Mercure mercure) {
         this.main = mercure;
         botsTokens = new HashMap<>();
@@ -27,15 +58,21 @@ public class BotsManager {
         voiceConnected = new HashMap<>();
     }
 
+    /**
+     * Is a bot for this name in this Mercure instance
+     * @param name Name of the bot
+     * @return Boolean
+     * @since 1.0.0
+     */
     public boolean isBotByName(String name) {
         return botsTokens.keySet().contains(name);
     }
 
     /**
-     * Méthode pour enregistrer un bot sur Mercure
-     *
-     * @param name : Nom à donner au bot
-     * @param token : Token du bot
+     * Save a bot in Mercure
+     * @param name Name needs to be gived to the bot
+     * @param token Bot's token
+     * @since 1.0.0
      */
     public void registerBot(String name, String token) {
         botsTokens.put(name, token);
@@ -43,12 +80,18 @@ public class BotsManager {
         this.serializeBots();
     }
 
+    /**
+     * Get all bots tokens by name
+     * @return Map with bot's name in key and token in value
+     * @since 1.0.0
+     */
     public Map<String, String> getBotsTokens(){
         return botsTokens;
     }
 
     /**
-     * Méthode d'enregistrement des bots dans le fichier bots.yml
+     * Save all bots in bots.yml file
+     * @since 1.0.0
      */
     private void serializeBots() {
 
@@ -67,7 +110,8 @@ public class BotsManager {
     }
 
     /**
-     * Méthode de chargement des bots depuis le fichier bots.yml
+     * Load all bots from bots.yml file
+     * @since 1.0.0
      */
     public void deserializeBots() {
         YAMLConfiguration yamlConfiguration = YAMLConfiguration.load("bots.yml");
@@ -80,21 +124,20 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour savoir si un bot est démarré et connecté à Discord
-     *
-     * @param name : Nom du bot
-     * @return boolean
+     * Is this bot started and connected to Discord
+     * @param name Bot's name
+     * @return Boolean
+     * @since 1.0.0
      */
     public boolean isConnected(String name) {
         return isConnected.get(name);
     }
 
     /**
-     * Méthode pour démarrer un bot et le connecter à Discord
-     *
-     * @param name : Nom du bot
+     * Start a bot and connecte him to Discord
+     * @param name Bot's name
+     * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     public void connect(String name) {
         Date starting = new Date();
         MercureLogger.log(MercureLogger.LogType.INFO, "Démarrage du bot " + name + " ...");
@@ -114,7 +157,8 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour déconnecter tous les bots de Discord
+     * Disconnect all bots from Discord
+     * @since 1.0.0
      */
     public void disconnectAllBots() {
         for(String name : jdas.keySet()){
@@ -123,10 +167,11 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour déconnecter un bot de Discord
-     *
-     * @param name : Nom du bot
-     * @param replacing : S'il est le listerner, le bot doit-il être remplacé
+     * Disconnect a bot from Discord
+     * @param name Bot's name
+     * @param replacing If he's the listener then he will be replaced
+     * @see ListenerManager
+     * @since 1.0.0
      */
     public void disconnect(String name, boolean replacing) {
         MercureLogger.log(MercureLogger.LogType.DEBUG, "Déconnexion du bot " + name + " ...");
@@ -156,9 +201,9 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour supprimer un bot de Mercure
-     *
-     * @param name : Nom du bot
+     * Delete a bot from Mercure
+     * @param name Bot's name
+     * @since 1.0.0
      */
     public void removeBot(String name) {
         this.botsTokens.remove(name);
@@ -169,10 +214,10 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour mettre à jour le message de status du bot
-     *
-     * @param name : Nom du bot
-     * @param status : Status du bot
+     * Change bot's status' message
+     * @param name Bot's name
+     * @param status Status
+     * @since 1.0.0
      */
     public void updateStatus(String name, String status) {
         JDA jda = jdas.get(name);
@@ -181,10 +226,10 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour changer la présence du bot
-     *
-     * @param name : Nom du bot
+     * Change bot's presence
+     * @param name Bot's name
      * @param presence : online/dnd/idle/offline
+     * @since 1.0.0
      */
     public void changePresence(String name, String presence) {
         JDA jda = jdas.get(name);
@@ -212,10 +257,10 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour récupérer un bot aléatoire géré par Mercure
-     *
-     * @return JDA
-     * @throws NoBotException
+     * Get a random bot managed by Mercure
+     * @return Bot's JDA
+     * @throws NoBotException There is no conneted bots to Discord
+     * @since 1.0.0
      */
     public JDA getRandomBot() throws NoBotException {
         if(this.jdas.size() > 0){
@@ -227,11 +272,11 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour récupérer un bot géré par Mercure
-     *
-     * @param name : Nom du bot
-     * @return JDA
-     * @throws NoBotException
+     * Get a Mercure's managed bot
+     * @param name Bot's name
+     * @return Bot's JDA
+     * @throws NoBotException There is no bot with this name
+     * @since 1.0.0
      */
     public JDA getBot(String name) throws NoBotException{
         if(this.jdas.keySet().contains(name)){
@@ -241,14 +286,12 @@ public class BotsManager {
         }
     }
 
-    private Map<String, VoiceChannel> voiceConnected;
-
     /**
-     * Méthode pour connecter un bot en vocal
-     *
-     * @param name : Nom du bot
-     * @param voiceChannel : Channel dans lequel le bot doit se connecter
-     * @throws NoBotException
+     * Connect a bot to a VoiceChannel
+     * @param name Bot's name
+     * @param voiceChannel Channel to connect
+     * @throws NoBotException This bot is not connected to Discord
+     * @since 1.0.0
      */
     public void connectToVocal(String name, VoiceChannel voiceChannel) throws NoBotException {
         if(isConnected(name)){
@@ -266,11 +309,11 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour déconnecter un bot des salons vocaux
-     *
-     * @param name : Nom du bot
-     * @param textChannel : Channel duquel vient l'ordre (nécessaire pour récupérer le bot)
-     * @throws NoBotException
+     * Disconnect a bot from his VoiceChannel
+     * @param name Bot's name
+     * @param textChannel A channel of the guild (needed to get the bot)
+     * @throws NoBotException This bot is not connected to Discord
+     * @since 1.0.0
      */
     public void disconnectFromVocal(String name, TextChannel textChannel) throws NoBotException {
         if(isConnected(name)) {
@@ -285,21 +328,21 @@ public class BotsManager {
     }
 
     /**
-     * Méthode pour savoir si un bot est connecté en vocal
-     *
-     * @param name : Nom du bot
-     * @return
+     * Is a bot in a VoiceChannel
+     * @param name Bot's name
+     * @return Boolean
+     * @since 1.0.0
      */
     public boolean isVoiceConnected(String name){
         return voiceConnected.containsKey(name);
     }
 
     /**
-     * Méthode pour obtenir un nombre aléatoire
-     *
-     * @param min : Nombre minimum (inclus)
-     * @param max : Nombre maximum (inclus)
-     * @return number
+     * Util method to get a random number
+     * @param min Maximum (include)
+     * @param max :Minimum (include)
+     * @return Integer in range
+     * @since 1.0.0
      */
     private int random(int min, int max){
         return (int)(Math.random() * ((max - min) + 1)) + min;

@@ -1,5 +1,10 @@
 package ch.dams333.mercure.utils.logger;
 
+/**
+ * List of all the colors can be used in console
+ * @author shakram02
+ * @version 1.0.0
+ */
 public class ConsoleColors {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset

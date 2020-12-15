@@ -6,19 +6,44 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.util.*;
 
+
+/**
+ * YAML file facilities
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class YAMLConfiguration {
 
+    /**
+     * Content of the file
+     * @since 1.0.0
+     */
     private LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
+    /**
+     * Class' constructor by Map
+     * @param map Content of the file
+     * @since 1.0.0
+     */
     public YAMLConfiguration(LinkedHashMap<String, Object> map) {
         this.map = map;
     }
 
+    /**
+     * Class' constructor by InputStream
+     * @param in InputStream to load
+     * @since 1.0.0
+     */
     public YAMLConfiguration(InputStream in){
         Yaml yaml = new Yaml();
         map = yaml.load(in);
     }
 
+     /**
+     * Class' constructor by file path
+     * @param path Path where is the YAML file
+     * @since 1.0.0
+     */
     public YAMLConfiguration(String path){
         InputStream inputStream = null;
         try {
@@ -34,10 +59,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour cahrger une configuration depuis un fichier
-     *
-     * @param path : Chemin d'accès du fichier
+     * Load a config file by path (if it does not exist, it will be created)
+     * @param path Access path to the file
      * @return YAMLConfiguration
+     * @since 1.0.0
      */
     public static YAMLConfiguration load(String path){
         File file = new File(path);
@@ -56,10 +81,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer toutes les clés de la section
-     *
-     * @param inLowerCase : Les clés dovient-elles êtres mises en minuscule
-     * @return List des clés
+     * Get all the keys of the current section
+     * @param inLowerCase Keys printed in lower cases
+     * @return List of String
+     * @since 1.0.0
      */
     public List<String> getKeys(boolean inLowerCase){
         List<String> keys = new ArrayList<>();
@@ -74,10 +99,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer une section de la configuration
-     *
-     * @param key : Nom de la section
-     * @return Section
+     * Get a configuration sections
+     * @param key Section's name
+     * @return ConfigurationSection
+     * @since 1.0.0
      */
     public ConfigurationSection getConfigurationSection(String key) {
         for(String keyInFile : getKeys(false)){
@@ -96,10 +121,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer une valeur
-     *
-     * @param key : Clé à chercher
-     * @return Valeur
+     * Get a value
+     * @param key Key to search
+     * @return Value
+     * @since 1.0.0
      */
     public Object get(String key){
         for(String keyInFile : getKeys(false)) {
@@ -112,10 +137,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer une liste de valeurs
-     *
-     * @param key : Clé à chercher
-     * @return Liste de valeurs
+     * Get a list of values
+     * @param key Key to find
+     * @return List of values
+     * @since 1.0.0
      */
     public List<Object> getList(String key){
         for(String keyInFile : getKeys(false)) {
@@ -132,10 +157,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer une liste de String
-     *
-     * @param key : Clé à chercher
-     * @return Liste de String
+     * Get a list of Strings
+     * @param key Key to find
+     * @return List of Strings
+     * @since 1.0.0
      */
     public List<String> getStringList(String key){
         for(String keyInFile : getKeys(false)) {
@@ -160,10 +185,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer un String
-     *
-     * @param key : Clé à chercher
+     * Get a String
+     * @param key Key to find
      * @return String
+     * @since 1.0.0
      */
     public String getString(String key){
         Object object = get(key);
@@ -174,10 +199,10 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour récupérer un Integer
-     *
-     * @param key : Clé à chercher
+     * Get an Integer
+     * @param key Key to find
      * @return Integer
+     * @since 1.0.0
      */
     public int getInt(String key){
         Object object = get(key);
@@ -188,20 +213,20 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour définir une valeur
-     *
-     * @param key : Clé à définir
-     * @param object : Valeur à défnir
+     * Set a value
+     * @param key Key to define
+     * @param object Value to define
+     * @since 1.0.0
      */
     public void set(String key, Object object){
         map.put(key, object);
     }
 
     /**
-     * Méthode pour créer une section
-     *
-     * @param name : Nom de la section
+     * Create a section in the current section
+     * @param name Name of the section
      * @return ConfigurationSection
+     * @since 1.0.0
      */
     public ConfigurationSection createConfigurationSection(String name){
         map.put(name, "{}");
@@ -209,9 +234,9 @@ public class YAMLConfiguration {
     }
 
     /**
-     * Méthode pour savuegarder la configuration dans un fichier
-     *
-     * @param path
+     * Save this config in a file
+     * @param path Path to the file
+     * @since 1.0.0
      */
     public void save(String path){
 
@@ -237,11 +262,11 @@ public class YAMLConfiguration {
         }
     }
 
-    /**
-     * Méthode appelée depuis un enfant pour être mis à jour
-     *
-     * @param name : Nom de la section
-     * @param map : Contenu de la section
+     /**
+     * Called by a child to be updated
+     * @param name Name of the child's section
+     * @param map Value of the child's section
+     * @since 1.0.0
      */
     protected void update(String name, LinkedHashMap<String,Object> map) {
         this.map.put(name, map);

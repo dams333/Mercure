@@ -4,7 +4,11 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 
-
+/**
+ * Util class for LavaPlayer
+ * @author NeutronStar
+ * @version 1.0.0
+ */
 public class MusicPlayer {
 
     private final AudioPlayer audioPlayer;
@@ -18,22 +22,42 @@ public class MusicPlayer {
         audioPlayer.addListener(listener);
     }
 
+    
+    /** 
+     * @return AudioPlayer
+     */
     public AudioPlayer getAudioPlayer() {
         return audioPlayer;
     }
 
+    
+    /** 
+     * @return Guild
+     */
     public Guild getGuild() {
         return guild;
     }
 
+    
+    /** 
+     * @return AudioListener
+     */
     public AudioListener getListener() {
         return listener;
     }
 
+    
+    /** 
+     * @return AudioHandler
+     */
     public AudioHandler getAudioHandler(){
         return new AudioHandler(audioPlayer);
     }
 
+    
+    /** 
+     * @param track
+     */
     public synchronized void playTrack(AudioTrack track){
         listener.queue(track);
     }

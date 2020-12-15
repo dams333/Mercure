@@ -14,26 +14,79 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * @author Dams333
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public class Mercure implements Runnable {
 
+    /**
+     * Type of logger in console
+     * @since 1.0.0
+     */
     public static String consoleType = "";
+    /**
+     * Date at Mercure started
+     * @since 1.0.0
+     */
     public static Date startingDate;
+    /**
+     * Instance of Mercure class
+     * @since 1.0.0
+     */
     public static Mercure selfInstance;
+    /**
+     * Is Mercure rnning
+     * @since 1.0.0
+     */
     private boolean running;
+    /**
+     * Console scanner
+     * @since 1.0.0
+     */
     private final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Mercure's commands' manager
+     * @since 1.0.0
+     */
     public CommandManager commandManager;
+    /**
+     * Bots' manager for connexions, serialzing and vocal
+     * @since 1.0.0
+     */
     public BotsManager botsManager;
+    /**
+     * Listener's classes' manager for registering and selecting bot
+     * @since 1.0.0
+     */
     public ListenerManager listenerManager;
+    /**
+     * Plugins' manager for loading and unloading
+     * @since 1.0.0
+     */
     public PluginManager pluginManager;
+    /**
+     * Plugins' manager for interactions between plugins' files and Mercure instance
+     * @since 1.0.0
+     */
     public PluginInteractionsManager registerManager;
+    /**
+     * Class for deserialization of YAML files contains commands' informations
+     * @since 1.0.0
+     */
     public MercureCommandFileParser mercureCommandFileParser;
+    /**
+     * Util class for vocal with LavaPlayer
+     * @since 1.0.0
+     */
     public VoiceManager voiceManager;
 
     /**
-     * Méthode de démarrage de Mercure
-     *
-     * @param args : Argument de la commande java de démarrage (""/"debug")
+     * Starting method of Mercure
+     * @param args Java starting command's parameters
+     * @since 1.0.0
      */
     public static void main(String[] args) {
         try {
@@ -54,7 +107,8 @@ public class Mercure implements Runnable {
     }
 
     /**
-     * Thread de Mercure
+     * Mercure running metod
+     * @since 1.0.0
      */
     public void run() {
 
@@ -104,16 +158,17 @@ public class Mercure implements Runnable {
     }
 
     /**
-     * Méthode d'arrêt de mercure
+     * Clean stop of Mercure
+     * @since 1.0.0
      */
     public void stop() {
         running = false;
     }
 
     /**
-     * Méthode pour récupérer le fichier de config de Mercure
-     *
-     * @return Fichier YAML
+     * Getting the pirncipal Mercure's configuration file
+     * @return YAML file
+     * @since 1.0.0
      */
     public YAMLConfiguration getConfig(){
         File file = new File("config.yml");

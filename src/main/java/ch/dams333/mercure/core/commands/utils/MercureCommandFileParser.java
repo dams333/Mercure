@@ -6,17 +6,32 @@ import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.yaml.ConfigurationSection;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
 
-import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Read YAML's commands' informations
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class MercureCommandFileParser {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+
+    /**
+     * Class' constructor
+     * @param mercure Mercure instance
+     * @since 1.0.0
+     */
     public MercureCommandFileParser(Mercure mercure) {
         this.main = mercure;
     }
 
     /**
-     * Méthode pour récupérer les informations de commandes depuis le fichier des commandes de base
+     * Get commands' informations in base config file (ch/dams333/mercure/core/commands/utils/MercureCommands.yml)
+     * @since 1.0.0
      */
     public void parse() {
         YAMLConfiguration yamlConfiguration = new YAMLConfiguration(ClassLoader.getSystemResourceAsStream("ch/dams333/mercure/core/commands/utils/MercureCommands.yml"));
@@ -41,10 +56,10 @@ public class MercureCommandFileParser {
     }
 
     /**
-     * Méthode pour récupérer des informations de commandes spéciifiques
-     *
-     * @param globalSection : Section de la configuration où se trouvent les informations
-     * @throws NoInformationException
+     * Get commands' informations from a ConfigurationSection
+     * @param globalSection Sections where are the commands' informations
+     * @throws NoInformationException An infromation miss
+     * @since 1.0.0
      */
     public void parse(ConfigurationSection globalSection) throws NoInformationException {
 

@@ -15,29 +15,62 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Mercure's command's manager
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class CommandManager {
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
-
+    /**
+     * Commands' tag
+     * @since 1.0.0
+     */
     private String tag = "!";
-
+    /**
+     * String printed when a user doesn't have the permission
+     * @since 1.0.0
+     */
     private String noPermission = "Vous n'avez pas la permission d'éxecuter cette commande !";
-
+    /**
+     * List of the registerd commands
+     * @since 1.0.0
+     */
     private List<MercureCommand> commands;
+    /**
+     * List of the CommandExecutors linked to MercureCommand
+     * @see CommandExecutor
+     * @since 1.0.0
+     */
     private Map<MercureCommand, CommandExecutor> executors;
 
+    /**
+     * Class' constructor
+     * @param mercure Mercure instance
+     * @since 1.0.0
+     */
     public CommandManager(Mercure mercure) {
         this.main = mercure;
         commands = new ArrayList<>();
         executors = new HashMap<>();
     }
 
+    /**
+     * Get the tag used to detect commands
+     * @return Tag
+     * @since 1.0.0
+     */
     public String getTag() {
         return tag;
     }
 
     /**
-     * Méthode de récupération des infos en config
-     * Méthode d'enregistrement des commandes de base de Mercure
+     * Get all util informations for commands' execution
+     * @since 1.0.0
      */
     public void registerBaseCommands() {
 
@@ -57,10 +90,10 @@ public class CommandManager {
     }
 
     /**
-     * Méthode d'enregistrement d'un exécuteur de commande
-     *
-     * @param name : Nom de la commande
-     * @param executor : Exécuteur de la commande
+     * Register a CommandExecutor for a command
+     * @param name Command's name
+     * @param executor CommandExecutor
+     * @since 1.0.0
      */
     public void registerCommand(String name, CommandExecutor executor) {
         if(isCommand(name)){
@@ -72,9 +105,10 @@ public class CommandManager {
     }
 
     /**
-     * Méthode pour savoir si une commande avec ce nom existe (alias inclus)
-     * @param name : Nom de la commande
-     * @return boolean
+     * Is a command with a specific name
+     * @param name Command's name
+     * @return Boolean
+     * @since 1.0.0
      */
     public boolean isCommand(String name) {
         for(MercureCommand command : this.commands){
@@ -86,9 +120,10 @@ public class CommandManager {
     }
 
     /**
-     * Méthode pour récupérer une commande
-     * @param name : Nom de la commande
+     * Get a command
+     * @param name Command's name
      * @return MercureCommand
+     * @since 1.0.0
      */
     public MercureCommand getCommand(String name) {
         for(MercureCommand command : this.commands){
@@ -100,17 +135,18 @@ public class CommandManager {
     }
 
     /**
-     * Méthode d'enregistrement des informations d'une commande
-     * @param mercureCommand : Commande
+     * Save the command's informations
+     * @param mercureCommand Command
+     * @since 1.0.0
      */
     public void registerCommandInformations(MercureCommand mercureCommand) {
         commands.add(mercureCommand);
     }
 
     /**
-     * Méthode lorsque la console exécute une commande
-     *
-     * @param commandeSTR : Input en console
+     * Console performed a command
+     * @param commandeSTR Console's input
+     * @since 1.0.0
      */
     public void performConsoleCommand(String commandeSTR) {
         String[] argsWithName = commandeSTR.split(" ");
@@ -132,10 +168,10 @@ public class CommandManager {
     }
 
     /**
-     * Méthode pour savoir si la console peut exécuter cette commande
-     *
-     * @param name : Nom de la commande
-     * @return boolean
+     * Can the console execute this command
+     * @param name Command's name
+     * @return Boolean
+     * @since 1.0.0
      */
     private boolean canConsolePerformCommand(String name) {
         MercureCommand command = getCommand(name);
@@ -146,9 +182,9 @@ public class CommandManager {
     }
 
     /**
-     * Méthode executée lorsqu'un utilisateur exécute la commande sur Discord
-     *
-     * @param event : Event détecté par un bot
+     * User performed a command
+     * @param event By a bot detected event
+     * @since 1.0.0
      */
     public void userCommand(MessageReceivedEvent event) {
         String message = event.getMessage().getContentDisplay().replaceFirst(tag, "");
@@ -170,12 +206,12 @@ public class CommandManager {
     }
 
     /**
-     * Méthode pour savoir si un utilisateur peut exécuter la commande
-     *
-     * @param name : Nom de la commande
-     * @param user : Utilisateur qui a exécuté la commande
-     * @param textChannel : Channel dans lequel la command a été utilisé
-     * @return boolean
+     * Can a user perform this command (include role's permissions)
+     * @param name Command's name
+     * @param user User performes the command
+     * @param textChannel Channel where the command was performed
+     * @return Boolean
+     * @since 1.0.0
      */
     private boolean canUserPerformCommand(String name, User user, TextChannel textChannel) {
         MercureCommand command = getCommand(name);
@@ -207,12 +243,18 @@ public class CommandManager {
         return false;
     }
 
+    /**
+     * Get all commands' informations
+     * @return
+     * @since 1.0.0
+     */
     public List<MercureCommand> getCommands() {
         return this.commands;
     }
 
     /**
-     * Méthode pour recharger tles commandes
+     * Reload all commands' informations
+     * @since 1.0.0
      */
     public void reloadCommands() {
         this.commands = new ArrayList<>();

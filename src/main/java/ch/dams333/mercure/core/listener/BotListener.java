@@ -3,7 +3,6 @@ package ch.dams333.mercure.core.listener;
 import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import javax.annotation.Nonnull;
@@ -11,23 +10,37 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Base listener of JDA's events
+ * @author Dams333
+ * @version 1.0.0
+ */
 public class BotListener implements net.dv8tion.jda.api.hooks.EventListener{
+    /**
+     * Mercure instance
+     * @since 1.0.0
+     */
     Mercure main;
+
+    /**
+     * Class' constructor
+     * @param main Mercure instance
+     * @since 1.0.0
+     */
     public BotListener(Mercure main) {
         this.main = main;
     }
 
     /**
-     * Méthode exécutée lorsque un événement est détecté par le lustener
-     *
-     * @param event : Evénement détecté
+     * An event is detected by the Listener's bot
+     * Util for command detecting and Listeners
+     * @see Listener
+     * @param event Detected event
+     * @since 1.0.0
      */
     @Override
     public void onEvent(@Nonnull GenericEvent event) {
 
-        /*
-          Test si l'événement détecté est un envoi de commande
-         */
         if(event instanceof MessageReceivedEvent) {
             if (((MessageReceivedEvent) event).getAuthor().isBot()) {
                 return;
@@ -37,9 +50,6 @@ public class BotListener implements net.dv8tion.jda.api.hooks.EventListener{
             }
         }
 
-        /*
-          Exécutions des listeners
-         */
         for(Listener listener : main.listenerManager.getListeners()){
             for(Method method : listener.getClass().getDeclaredMethods()){
                 for(Annotation annotation : method.getDeclaredAnnotations()){
