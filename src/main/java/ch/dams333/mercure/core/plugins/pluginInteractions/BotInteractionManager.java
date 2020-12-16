@@ -1,6 +1,8 @@
 package ch.dams333.mercure.core.plugins.pluginInteractions;
 
 import ch.dams333.mercure.Mercure;
+import ch.dams333.mercure.core.listener.BotListener;
+import ch.dams333.mercure.core.listener.MercureEvent;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.exceptions.VoiceException;
 import net.dv8tion.jda.api.JDA;
@@ -14,7 +16,7 @@ import java.io.IOException;
  * Basic plugins' interactions' manager Class. Used to control the accesses of plugins
  * @see BotsManager
  * @author Dams333
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class BotInteractionManager {
     /**
@@ -124,5 +126,15 @@ public class BotInteractionManager {
      */
     public String getYoutubeVideo(String keeWords) throws IOException, ParseException {
         return main.voiceManager.youtubeSearch(keeWords);
+    }
+
+    /**
+     * Call a custom event in listeners
+     * @see BotListener
+     * @param event Event to call
+     * @since 1.0.1
+     */
+    public void callEvent(MercureEvent event){
+        BotListener.performCustomEvent(event);
     }
 }

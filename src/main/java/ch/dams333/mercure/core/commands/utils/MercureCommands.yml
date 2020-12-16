@@ -42,3 +42,12 @@ reload:
     - "!reload - Recharge entièrement les plugins"
   aliases:
     - rl
+message:
+  description: "Envoie un message"
+  permissions:
+    - user
+  format:
+    - "!message <bot name> <channel ID> <message>"
+  aliases:
+    - msg
+    - send

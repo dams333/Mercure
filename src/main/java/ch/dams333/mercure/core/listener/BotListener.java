@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 /**
  * Base listener of JDA's events
  * @author Dams333
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class BotListener implements net.dv8tion.jda.api.hooks.EventListener{
     /**
@@ -23,16 +23,32 @@ public class BotListener implements net.dv8tion.jda.api.hooks.EventListener{
     Mercure main;
 
     /**
+     * Self instance
+     * @since 1.0.0
+     */
+    public static BotListener INSTANCE;
+
+    /**
      * Class' constructor
      * @param main Mercure instance
      * @since 1.0.0
      */
     public BotListener(Mercure main) {
         this.main = main;
+        INSTANCE = this;
     }
 
     /**
-     * An event is detected by the Listener's bot
+     * Call custom event to activate the listeners
+     * @param event Event to call
+     * @since 1.0.1
+     */
+    public static void performCustomEvent(MercureEvent event){
+        BotListener.INSTANCE.onEvent(event);
+    }
+
+    /**
+     * An event is activated
      * Util for command detecting and Listeners
      * @see Listener
      * @param event Detected event

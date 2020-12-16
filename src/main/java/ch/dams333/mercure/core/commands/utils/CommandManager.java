@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Mercure's command's manager
  * @author Dams333
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class CommandManager {
     /**
@@ -87,6 +87,7 @@ public class CommandManager {
         registerCommand("mercure", new MercureHelpCommand(main));
         registerCommand("help", new HelpCommand(main));
         registerCommand("reload", new ReloadCommand(main));
+        registerCommand("message", new MessageCommand(main));
     }
 
     /**
