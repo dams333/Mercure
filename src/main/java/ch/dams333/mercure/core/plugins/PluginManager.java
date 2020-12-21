@@ -93,7 +93,6 @@ public class PluginManager {
 
             URL url = pluginFiles[index].toURL();
             URLClassLoader loader = new URLClassLoader(new URL[]{url});
-
             JarFile jar = new JarFile(pluginFiles[index].getAbsolutePath());
             Enumeration jarContent = jar.entries();
 

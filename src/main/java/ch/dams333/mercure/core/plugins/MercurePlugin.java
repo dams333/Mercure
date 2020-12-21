@@ -2,6 +2,8 @@ package ch.dams333.mercure.core.plugins;
 
 import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.core.plugins.pluginInteractions.PluginInteractionsManager;
+import ch.dams333.mercure.utils.logger.MercureLogger;
+import ch.dams333.mercure.utils.logger.MercureLogger.LogType;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
 
 import java.io.File;
@@ -10,7 +12,7 @@ import java.io.File;
  * Abstract class of all Mercure's plugins
  * @see MercurePlugin
  * @author Dams333
- * @version 1.0.0
+ * @version 1.0.1
  */
 public abstract class MercurePlugin {
 
@@ -95,5 +97,25 @@ public abstract class MercurePlugin {
      */
     public void saveConfig(YAMLConfiguration config){
         config.save(getPluginDirectory() + File.separator + "config.yml");
+    }
+
+    /**
+     * Log a message in console
+     * @param logType Type of log
+     * @param message Message to log
+     * @since 1.0.1
+     */
+    public void log(LogType logType, String message){
+        MercureLogger.log(this.name, logType, message);
+    }
+
+    /**
+     * Log an error in console
+     * @param message Message to log
+     * @param e Error to log (only inf console type is 'debug')
+     * @since 1.0.1
+     */
+    public void log(String message, Exception e){
+        MercureLogger.log(this.name, message, e);
     }
 }
