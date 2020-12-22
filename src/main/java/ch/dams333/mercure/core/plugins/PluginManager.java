@@ -23,7 +23,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 /**
  * Plugin's manager
  * @author Dams333
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class PluginManager {
     /**
@@ -203,6 +203,7 @@ public class PluginManager {
      * @since 1.0.0
      */
     public void reloadPlugins(){
+        main.listenerManager.reloadListeners();
         for(MercurePluginInformation pluginInformation : pluginInformations){
             MercureLogger.log(MercureLogger.LogType.DEBUG, "Déchargement du plugin " + pluginInformation.getName() + " ...");
             try {

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Listener's manager
  * @author Dams333
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class ListenerManager{
     /**
@@ -79,4 +79,12 @@ public class ListenerManager{
     public boolean isListener(String name) {
         return name.equalsIgnoreCase(listenerName);
     }
+
+    /**
+     * Disable all loaded Listeners for plugin reloadinf
+     * @since 1.0.1
+     */
+	public void reloadListeners() {
+        this.listeners = new ArrayList<>();
+	}
 }
