@@ -23,7 +23,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 /**
  * Plugin's manager
  * @author Dams333
- * @version 1.0.1
+ * @version 1.1.0
  */
 public class PluginManager {
     /**
@@ -91,16 +91,16 @@ public class PluginManager {
 
             MercureLogger.log(MercureLogger.LogType.DEBUG, "Chargement du plugin " + pluginFiles[index].toString().replaceFirst("plugins", "").replaceFirst(".jar", "").substring(1) + " ...");
 
-            URL url = pluginFiles[index].toURL();
+            URL url = pluginFiles[index].toURI().toURL();
             URLClassLoader loader = new URLClassLoader(new URL[]{url});
             JarFile jar = new JarFile(pluginFiles[index].getAbsolutePath());
-            Enumeration jarContent = jar.entries();
+            Enumeration<?> jarContent = jar.entries();
 
             String name = null;
             String author = null;
             String version = null;
             String mainClassPath = null;
-            Class pluginClass = null;
+            Class<?> pluginClass = null;
             String description = null;
 
             while (jarContent.hasMoreElements()) {
@@ -149,7 +149,7 @@ public class PluginManager {
                     element = element.replaceAll("/",".");
 
                     if(element.equals(mainClassPath)){
-                        Class tmpClass = Class.forName(element ,true,loader);
+                        Class<?> tmpClass = Class.forName(element ,true,loader);
                         pluginClass = tmpClass;
                     }
                 }
@@ -160,7 +160,7 @@ public class PluginManager {
                 throw new NoClassException("Impossible de trouver la class principale du plugin");
             }
 
-            MercurePlugin mercurePlugin = (MercurePlugin) pluginClass.newInstance();
+            MercurePlugin mercurePlugin = (MercurePlugin) pluginClass.getDeclaredConstructor().newInstance();
             mercurePlugin.setName(name);
             mercurePlugin.onLoad();
 

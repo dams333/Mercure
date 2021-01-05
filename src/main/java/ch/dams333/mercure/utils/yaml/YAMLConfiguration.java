@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * YAML file facilities
  * @author Dams333
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class YAMLConfiguration {
 
@@ -104,10 +104,11 @@ public class YAMLConfiguration {
      * @return ConfigurationSection
      * @since 1.0.0
      */
+    @SuppressWarnings("unchecked")
     public ConfigurationSection getConfigurationSection(String key) {
         for(String keyInFile : getKeys(false)){
             if(keyInFile.equals(key)){
-                if(map.get(keyInFile) instanceof LinkedHashMap){
+                if(map.get(keyInFile) instanceof LinkedHashMap<?, ?>){
                     ConfigurationSection section = new ConfigurationSection((LinkedHashMap<String, Object>) map.get(keyInFile), this, key);
                     return section;
                 }else{
@@ -142,6 +143,7 @@ public class YAMLConfiguration {
      * @return List of values
      * @since 1.0.0
      */
+    @SuppressWarnings("unchecked")
     public List<Object> getList(String key){
         for(String keyInFile : getKeys(false)) {
             if (keyInFile.equals(key)) {
@@ -162,12 +164,13 @@ public class YAMLConfiguration {
      * @return List of Strings
      * @since 1.0.0
      */
+    @SuppressWarnings("unchecked")
     public List<String> getStringList(String key){
         for(String keyInFile : getKeys(false)) {
             if (keyInFile.equals(key)) {
                 if(map.get(keyInFile) instanceof ArrayList){
-                    if(((ArrayList) map.get(keyInFile)).size() > 0) {
-                        if (((ArrayList) map.get(keyInFile)).get(0) instanceof String) {
+                    if(((ArrayList<?>) map.get(keyInFile)).size() > 0) {
+                        if (((ArrayList<?>) map.get(keyInFile)).get(0) instanceof String) {
                             return (List<String>) map.get(keyInFile);
                         }
                     }else{
