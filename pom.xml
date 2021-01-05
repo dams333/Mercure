@@ -42,7 +42,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <outputDirectory>A:\MercureV2\output</outputDirectory>
+                    <outputDirectory>A:\new orga\Dev\Java\Mercure\MercureV2\output</outputDirectory>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
