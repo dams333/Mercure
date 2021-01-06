@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Logger system for Mercure's console
  * @author Dams333
- * @version 1.1.0
+ * @version 1.2.0
  */
 public class MercureLogger {
 
@@ -122,6 +122,11 @@ public class MercureLogger {
          * @since 1.0.0
          */
         SUCESS("SUCESS", ConsoleColors.GREEN),
+        /**
+         * Log of warn message
+         * @since 1.0.0
+         */
+        WARN("WARN", ConsoleColors.YELLOW),
         /**
          * Log of an error message
          * @since 1.0.0

@@ -2,13 +2,10 @@ package ch.dams333.mercure.core.bots.voiceBot;
 
 import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.core.bots.voiceBot.music.MusicManager;
-import ch.dams333.mercure.core.bots.voiceBot.music.MusicPlayer;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.exceptions.VoiceException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -132,7 +129,7 @@ public class VoiceManager {
      * @since 1.0.0
      */
     public void addTrack(String name, String track, TextChannel textChannel) throws NoBotException {
-        if(main.botsManager.isBotByName(name)){
+        /*if(main.botsManager.isBotByName(name)){
             if(main.botsManager.isConnected(name)){
                 if(main.botsManager.isVoiceConnected(name)){
 
@@ -146,7 +143,7 @@ public class VoiceManager {
             }
             throw new NoBotException("Le bot " + name + " n'est pas connecté");
         }
-        throw new NoBotException("Le bot " + name + " n'existe pas");
+        throw new NoBotException("Le bot " + name + " n'existe pas");*/
     }
 
     /**
@@ -160,7 +157,7 @@ public class VoiceManager {
      */
     @SuppressWarnings("deprecation")
     public void skipTrack(String name, TextChannel channel) throws NoBotException, VoiceException {
-        if(main.botsManager.isBotByName(name)){
+        /*if(main.botsManager.isBotByName(name)){
             if(main.botsManager.isConnected(name)){
                 if(main.botsManager.isVoiceConnected(name)){
 
@@ -179,7 +176,7 @@ public class VoiceManager {
             }
             throw new NoBotException("Le bot " + name + " n'est pas connecté");
         }
-        throw new NoBotException("Le bot " + name + " n'existe pas");
+        throw new NoBotException("Le bot " + name + " n'existe pas");*/
     }
 
     /**
@@ -192,7 +189,7 @@ public class VoiceManager {
      * @since 1.0.0
      */
     public void clearTracks(String name, TextChannel channel) throws NoBotException, VoiceException {
-        if(main.botsManager.isBotByName(name)){
+        /*if(main.botsManager.isBotByName(name)){
             if(main.botsManager.isConnected(name)){
                 if(main.botsManager.isVoiceConnected(name)){
 
@@ -212,7 +209,7 @@ public class VoiceManager {
             }
             throw new NoBotException("Le bot " + name + " n'est pas connecté");
         }
-        throw new NoBotException("Le bot " + name + " n'existe pas");
+        throw new NoBotException("Le bot " + name + " n'existe pas");*/
     }
 
     /**
@@ -224,7 +221,7 @@ public class VoiceManager {
      * @since 1.0.0
      */
     public void stopMusic(String name, TextChannel channel) throws NoBotException {
-        if(main.botsManager.isBotByName(name)){
+       /* if(main.botsManager.isBotByName(name)){
             if(main.botsManager.isConnected(name)){
                 if(main.botsManager.isVoiceConnected(name)){
 
@@ -239,7 +236,7 @@ public class VoiceManager {
             }
             throw new NoBotException("Le bot " + name + " n'est pas connecté");
         }
-        throw new NoBotException("Le bot " + name + " n'existe pas");
+        throw new NoBotException("Le bot " + name + " n'existe pas");*/
     }
 
 }

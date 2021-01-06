@@ -1,11 +1,11 @@
 package ch.dams333.mercure.core.plugins.pluginInteractions;
 
 import ch.dams333.mercure.Mercure;
+import ch.dams333.mercure.core.bots.Bot;
 import ch.dams333.mercure.core.listener.BotListener;
 import ch.dams333.mercure.core.listener.MercureEvent;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.exceptions.VoiceException;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.json.simple.parser.ParseException;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * Basic plugins' interactions' manager Class. Used to control the accesses of plugins
  * @see BotsManager
  * @author Dams333
- * @version 1.0.1
+ * @version 1.1.0
  */
 public class BotInteractionManager {
     /**
@@ -41,7 +41,7 @@ public class BotInteractionManager {
      * @throws NoBotException There is no bot with this name
      * @since 1.0.0
      */
-    public JDA getBot(String name) throws NoBotException {
+    public Bot getBot(String name) throws NoBotException {
         return main.botsManager.getBot(name);
     }
 
@@ -51,8 +51,8 @@ public class BotInteractionManager {
      * @throws NoBotException There is no connected bot
      * @since 1.0.0
      */
-    public JDA getRandomBot() throws NoBotException {
-        return main.botsManager.getRandomBot();
+    public Bot getRandomBot(Boolean needToBeConnected) throws NoBotException {
+        return main.botsManager.getRandomBot(needToBeConnected);
     }
 
     /**

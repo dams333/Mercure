@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * Executing class of help command
  * @author Dams333
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class HelpCommand implements CommandExecutor {
     /**
@@ -77,7 +77,7 @@ public class HelpCommand implements CommandExecutor {
             embedBuilder.addField("Aliases:", aliases, false);
         }
         try {
-            main.botsManager.getRandomBot().getTextChannelById(textChannel.getId()).sendMessage(embedBuilder.build()).queue();
+            main.botsManager.getRandomBot(true).sendEmbed(embedBuilder, textChannel);;
         } catch (NoBotException e) {
             MercureLogger.log("Impossible d'envoyer le message", e);
         }
@@ -104,7 +104,7 @@ public class HelpCommand implements CommandExecutor {
         }
         embedBuilder.addField("", sb.toString(), false);
         try {
-            main.botsManager.getRandomBot().getTextChannelById(textChannel.getId()).sendMessage(embedBuilder.build()).queue();
+            main.botsManager.getRandomBot(true).sendEmbed(embedBuilder, textChannel);;
         } catch (NoBotException e) {
             MercureLogger.log("Impossible d'envoyer le message", e);
         }

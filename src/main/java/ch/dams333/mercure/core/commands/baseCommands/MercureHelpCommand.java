@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * Executing class of mercure command
  * @author Dams333
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class MercureHelpCommand implements CommandExecutor {
    /**
@@ -88,7 +88,7 @@ public class MercureHelpCommand implements CommandExecutor {
         embedBuilder.addField("En cours d'éxecution depuis :", day + " " + hour + " " + min + " " + sec, false);
         embedBuilder.addField("", "Mercure a été créé par Dams333", false);
         try {
-            main.botsManager.getRandomBot().getTextChannelById(textChannel.getId()).sendMessage(embedBuilder.build()).queue();
+            main.botsManager.getRandomBot(true).sendEmbed(embedBuilder, textChannel);;
         } catch (NoBotException e) {
             MercureLogger.log("Impossible d'envoyer le message", e);
         }
