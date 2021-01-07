@@ -12,7 +12,7 @@ import java.util.*;
  * @author Dams333
  * @version 2.0.0
  */
-public class BotsManager {
+public class BotsManager{
     /**
      * Mercure instance
      * @since 1.0.0
@@ -97,10 +97,9 @@ public class BotsManager {
 
     /**
      * Start a bot and connecte him to Discord
-     * 
      * @param name Bot's name
      * @throws NoBotException
-     * @since 1.0.0
+     * @since 2.0.0
      */
     public void connect(String name) throws NoBotException {
         Bot bot = getBot(name);
@@ -109,7 +108,7 @@ public class BotsManager {
 
     /**
      * Disconnect all bots from Discord
-     * @since 1.0.0
+     * @since 2.0.0
      */
     public void disconnectAllBots() {
         for(Bot bot : this.bots){

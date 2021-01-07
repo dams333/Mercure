@@ -39,15 +39,6 @@ public class BotListener implements net.dv8tion.jda.api.hooks.EventListener{
     }
 
     /**
-     * Call custom event to activate the listeners
-     * @param event Event to call
-     * @since 1.0.1
-     */
-    public static void performCustomEvent(MercureEvent event){
-        BotListener.INSTANCE.onEvent(event);
-    }
-
-    /**
      * An event is activated
      * Util for command detecting and Listeners
      * @see Listener

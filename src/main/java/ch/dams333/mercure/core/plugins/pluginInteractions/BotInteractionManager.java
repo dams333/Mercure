@@ -3,7 +3,7 @@ package ch.dams333.mercure.core.plugins.pluginInteractions;
 import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.core.bots.Bot;
 import ch.dams333.mercure.core.listener.BotListener;
-import ch.dams333.mercure.core.listener.MercureEvent;
+import ch.dams333.mercure.core.listener.events.MercureEvent;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.exceptions.VoiceException;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -135,6 +135,6 @@ public class BotInteractionManager {
      * @since 1.0.1
      */
     public void callEvent(MercureEvent event){
-        BotListener.performCustomEvent(event);
+        main.listenerManager.performCustomEvent(event);
     }
 }

@@ -4,6 +4,10 @@ import java.util.Date;
 
 import javax.security.auth.login.LoginException;
 
+import ch.dams333.mercure.Mercure;
+import ch.dams333.mercure.core.listener.BotListener;
+import ch.dams333.mercure.core.listener.events.BotDisconnectEvent;
+import ch.dams333.mercure.core.listener.events.BotReadyEvent;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.logger.MercureLogger.LogType;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
@@ -29,6 +33,12 @@ public class Bot {
         return this.name;
     }
 
+
+    public JDA getJda() {
+        return this.jda;
+    }
+
+
     public Bot(String name, String token) {
         this.name = name;
         this.token = token;
@@ -42,6 +52,7 @@ public class Bot {
             jda = JDABuilder.createDefault(token).build();
             long millis = new Date().getTime() - date.getTime();
             MercureLogger.log(LogType.SUCESS, "Le bot " + name + " a démarré avec succès en " + millis + "ms");
+            Mercure.selfInstance.listenerManager.performCustomEvent(new BotReadyEvent(this));
         } catch (LoginException e) {
             MercureLogger.log("Erreur lors du démarrage du bot " + name, e);
         }
@@ -55,10 +66,13 @@ public class Bot {
     }
 
     public void disconnectFromDiscord(){
-        MercureLogger.log(LogType.INFO, "Déconnexion du bot " + name + "...");
-        jda.shutdown();
-        jda = null;
-        MercureLogger.log(LogType.SUCESS, "Le bot " + name + " a été déconnecté");
+        if(this.jda != null){
+            MercureLogger.log(LogType.INFO, "Déconnexion du bot " + name + "...");
+            jda.shutdown();
+            jda = null;
+            MercureLogger.log(LogType.SUCESS, "Le bot " + name + " a été déconnecté");
+            Mercure.selfInstance.listenerManager.performCustomEvent(new BotDisconnectEvent(this));
+        }
     }
 
     public void sendMessage(String message, TextChannel channel){
@@ -106,6 +120,10 @@ public class Bot {
 
 	public void serialize(YAMLConfiguration yamlConfiguration) {
         yamlConfiguration.set(name, token);
+	}
+
+	public void setTriggerer() {
+        this.jda.addEventListener(new BotListener(Mercure.selfInstance));
 	}
 
 }
