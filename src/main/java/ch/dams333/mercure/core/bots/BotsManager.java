@@ -4,7 +4,6 @@ import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
-import net.dv8tion.jda.api.entities.*;
 import java.util.*;
 
 /**
@@ -174,57 +173,19 @@ public class BotsManager{
         throw new NoBotException("Il n'y a pas de bot géré par Mercure portant ce nom");
     }
 
-    /**
-     * Connect a bot to a VoiceChannel
-     * @param name Bot's name
-     * @param voiceChannel Channel to connect
-     * @throws NoBotException This bot is not connected to Discord
-     * @since 1.0.0
-     */
-    public void connectToVocal(String name, VoiceChannel voiceChannel) throws NoBotException {
-
-        /*if(isConnected(name)){
-            JDA jda = getBot(name);
-
-            VoiceChannel channel = jda.getVoiceChannelById(voiceChannel.getId());
-            AudioManager audioManager = channel.getGuild().getAudioManager();
-            audioManager.openAudioConnection(channel);
-
-            this.voiceConnected.put(name, voiceChannel);
-
-        }else{
-            throw new NoBotException("Ce bot n'est pas connecté");
-        }*/
-    }
-
-    /**
-     * Disconnect a bot from his VoiceChannel
-     * @param name Bot's name
-     * @param textChannel A channel of the guild (needed to get the bot)
-     * @throws NoBotException This bot is not connected to Discord
-     * @since 1.0.0
-     */
-    public void disconnectFromVocal(String name, TextChannel textChannel) throws NoBotException {
-        /*if(isConnected(name)) {
-            JDA jda = getBot(name);
-            main.voiceManager.stopMusic(name, textChannel);
-            VoiceChannel channel = jda.getVoiceChannelById(voiceConnected.get(name).getId());
-            AudioManager audioManager = channel.getGuild().getAudioManager();
-            audioManager.closeAudioConnection();
-        }else{
-            throw new NoBotException("Ce bot n'est pas connecté");
-        }*/
-    }
-
-    /**
-     * Is a bot in a VoiceChannel
-     * @param name Bot's name
-     * @return Boolean
-     * @since 1.0.0
-     */
-    public boolean isVoiceConnected(String name){
-        return false;
-        //return voiceConnected.containsKey(name);
+    public Bot getBotReadyToConnectToVocal() throws NoBotException {
+        List<Bot> readyBots = new ArrayList<>();
+        for(Bot bot : this.bots){
+            if(bot.isConnectedToDiscord()){
+                if(!bot.isVocalConnected()){
+                    readyBots.add(bot);
+                }
+            }
+        }
+        if(readyBots.size() <= 0){
+            throw new NoBotException("Il n'y a aucun bot disponible pour se connecter en vocal");
+        }
+        return readyBots.get(random(0, readyBots.size() - 1));
     }
 
     /**

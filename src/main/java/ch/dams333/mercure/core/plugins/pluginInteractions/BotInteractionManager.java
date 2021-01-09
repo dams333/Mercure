@@ -40,13 +40,17 @@ public class BotInteractionManager {
     }
 
     /**
-     * MGet a random bot
+     * Get a random bot
      * @return Bot's JDA
      * @throws NoBotException There is no connected bot
      * @since 1.0.0
      */
     public Bot getRandomBot(Boolean needToBeConnected) throws NoBotException {
         return main.botsManager.getRandomBot(needToBeConnected);
+    }
+
+    public Bot getRandomBotReadyToConnectToVocal() throws NoBotException {
+        return main.botsManager.getBotReadyToConnectToVocal();
     }
 
     /**
