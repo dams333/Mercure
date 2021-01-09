@@ -32,7 +32,7 @@ public abstract class MercurePlugin {
      * @since 1.0.0
      */
     public MercurePlugin() {
-        main = Mercure.selfInstance;
+        main = Mercure.INSTANCE;
     }
 
     /**

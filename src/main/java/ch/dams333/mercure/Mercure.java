@@ -1,7 +1,6 @@
 package ch.dams333.mercure;
 
 import ch.dams333.mercure.core.bots.BotsManager;
-import ch.dams333.mercure.core.bots.voiceBot.VoiceManager;
 import ch.dams333.mercure.core.commands.utils.CommandManager;
 import ch.dams333.mercure.core.commands.utils.MercureCommandFileParser;
 import ch.dams333.mercure.core.listener.ListenerManager;
@@ -35,7 +34,7 @@ public class Mercure implements Runnable {
      * Instance of Mercure class
      * @since 1.0.0
      */
-    public static Mercure selfInstance;
+    public static Mercure INSTANCE;
     /**
      * Is Mercure rnning
      * @since 1.0.0
@@ -77,11 +76,6 @@ public class Mercure implements Runnable {
      * @since 1.0.0
      */
     public MercureCommandFileParser mercureCommandFileParser;
-    /**
-     * Util class for vocal with LavaPlayer
-     * @since 1.0.0
-     */
-    public VoiceManager voiceManager;
 
     /**
      * Starting method of Mercure
@@ -112,7 +106,7 @@ public class Mercure implements Runnable {
      */
     public void run() {
 
-        selfInstance = this;
+        INSTANCE = this;
 
         registerManager = new PluginInteractionsManager(this);
         commandManager = new CommandManager(this);
@@ -121,7 +115,6 @@ public class Mercure implements Runnable {
         mercureCommandFileParser = new MercureCommandFileParser(this);
         mercureCommandFileParser.parse();
         pluginManager = new PluginManager(this);
-        voiceManager = new VoiceManager(this);
 
 
         try {

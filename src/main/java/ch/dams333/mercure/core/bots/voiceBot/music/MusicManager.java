@@ -13,7 +13,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
 /**
  * Util class for LavaPlayer
@@ -26,12 +26,10 @@ public class MusicManager {
     private Map<String, MusicPlayer> players;
 
     public MusicManager(){
-        MercureLogger.log(MercureLogger.LogType.DEBUG, "CREATING");
         manager = new DefaultAudioPlayerManager();
         players = new HashMap<>();
         AudioSourceManagers.registerRemoteSources(manager);
         AudioSourceManagers.registerLocalSource(manager);
-        MercureLogger.log(MercureLogger.LogType.DEBUG, "YOLO");
     }
 
     
@@ -49,7 +47,7 @@ public class MusicManager {
      * @param channel
      * @param source
      */
-    public void loadTrack(final TextChannel channel, final String source){
+    public void loadTrack(final VoiceChannel channel, final String source){
 
         MusicPlayer player = getPlayer(channel.getGuild());
         channel.getGuild().getAudioManager().setSendingHandler(player.getAudioHandler());

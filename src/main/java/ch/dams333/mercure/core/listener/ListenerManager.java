@@ -18,11 +18,15 @@ import java.util.List;
 
 /**
  * Listener's manager
- * 
  * @author Dams333
- * @version 1.0.1
+ * @version 1.2.0
  */
 public class ListenerManager implements Listener {
+
+
+    
+
+
     /**
      * Mercure instance
      * 
@@ -64,6 +68,12 @@ public class ListenerManager implements Listener {
     public List<Listener> getListeners() {
         return listeners;
     }
+
+
+    public Bot getTrigerer() {
+        return this.trigerer;
+    }
+
 
     /**
      * Register a listener
