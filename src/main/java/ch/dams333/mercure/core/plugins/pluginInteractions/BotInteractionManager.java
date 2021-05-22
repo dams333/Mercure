@@ -49,6 +49,12 @@ public class BotInteractionManager {
         return main.botsManager.getRandomBot(needToBeConnected);
     }
 
+    /**
+     * Get a random bot that can be connected to vocal
+     * @return Bot's object
+     * @throws NoBotException There is no bot that can be connected to vocal
+     * @since 1.0.0
+     */
     public Bot getRandomBotReadyToConnectToVocal() throws NoBotException {
         return main.botsManager.getBotReadyToConnectToVocal();
     }

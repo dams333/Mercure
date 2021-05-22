@@ -35,26 +35,70 @@ import net.dv8tion.jda.api.managers.AudioManager;
  */
 public class Bot {
 
+    /**
+     * Bot's name
+     * @since 1.0.0
+     */
     private String name;
+
+    /**
+     * Bot's token
+     * @since 1.0.0
+     */
     private String token;
+
+    /**
+     * JDA object of th bot
+     * @since 1.0.0
+     */
     private JDA jda;
+
+    /**
+     * Current connected bot's voice channel 
+     * @since 1.0.0
+     */
     private VoiceChannel voiceChannel;
+
+    /**
+     * Music manager of the bot
+     * @since 1.0.0
+     */
     private MusicManager musicManager;
 
+    /**
+     * Get the VoiceChannel of the bot (null if not connected)
+     * @return A voiceChannel
+     * @since 1.0.0
+     */
     public VoiceChannel getVoiceChannel() {
         return this.voiceChannel;
     }
 
+    /**
+     * Get bot's name
+     * @return bot's name
+     * @since 1.0.0
+     */
     public String getName() {
         return this.name;
     }
 
-
+    /**
+     * Get JDA's object
+     * @return JDA
+     * @since 1.0.0
+     */
     public JDA getJda() {
         return this.jda;
     }
 
 
+    /**
+     * Bot's constructor
+     * @param name Bot's name
+     * @param token Bot's token
+     * @since 1.0.0
+     */
     public Bot(String name, String token) {
         this.name = name;
         this.token = token;
@@ -63,6 +107,10 @@ public class Bot {
         this.musicManager = null;
     }
 
+    /**
+     * Connect this bot to Discord and create JDA
+     * @since 1.0.0
+     */
     public void connectToDiscord() {
         MercureLogger.log(LogType.INFO, "Démarrage du bot " + name);
         Date date = new Date();
@@ -76,6 +124,11 @@ public class Bot {
         }
     }
 
+    /**
+     * Is this bot connected to discord
+     * @return boolean
+     * @since 1.0.0
+     */
     public boolean isConnectedToDiscord(){
         if(jda == null){
             return false;
@@ -83,6 +136,10 @@ public class Bot {
         return true;
     }
 
+    /**
+     * Disconnect thi bot from Discord and remove JDA object
+     * @since 1.0.0
+     */
     public void disconnectFromDiscord(){
         if(this.jda != null){
             MercureLogger.log(LogType.INFO, "Déconnexion du bot " + name + "...");
@@ -93,15 +150,31 @@ public class Bot {
         }
     }
 
+    /**
+     * Send a message with this bot
+     * @param message Message to send
+     * @param channel Channel where the bot need to send
+     * @since 1.0.0
+     */
     public void sendMessage(String message, TextChannel channel){
         jda.getTextChannelById(channel.getId()).sendMessage(message).queue();
     }
 
+    /**
+     * Change the status of this bot
+     * @param status Bot's status
+     * @since 1.0.0
+     */
     public void changeStatus(String status) {
         jda.getPresence().setActivity(Activity.playing(status));
         MercureLogger.log(MercureLogger.LogType.SUCESS, "Status du bot " + name + " mis à jour");
     }
 
+    /**
+     * Change the presence of this bot
+     * @param presence "online"/"dnd"/"idle"/"offline"
+     * @since 1.0.0
+     */
     public void changePresence(String presence) {
         if(presence.equalsIgnoreCase("online")){
             jda.getPresence().setStatus(OnlineStatus.ONLINE);
@@ -126,24 +199,49 @@ public class Bot {
         MercureLogger.log(MercureLogger.LogType.WARN, "Présence invalide: online | dnd | idle |offline>");
     }
 
+    /**
+     * Send a basic embed with this bot
+     * @param message The message to put in the emebd
+     * @since 1.0.0
+     */
     public void sendEmbed(String message, TextChannel channel){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setDescription(message);
         jda.getTextChannelById(channel.getId()).sendMessage(embedBuilder.build()).queue();
     }
 
+    /**
+     * Send an embed with this bot
+     * @param embedBuilder The builder of the embed to send
+     * @param channel The channel to send the message
+     * @since 1.0.0
+     */
     public void sendEmbed(EmbedBuilder embedBuilder, TextChannel channel){
         jda.getTextChannelById(channel.getId()).sendMessage(embedBuilder.build()).queue();
     }
 
+    /**
+     * Save this bot to YAML file
+     * @param yamlConfiguration The config where the bot need to be saved
+     * @since 1.0.0
+     */
 	public void serialize(YAMLConfiguration yamlConfiguration) {
         yamlConfiguration.set(name, token);
 	}
 
+    /**
+     * Set this bot as Trigerer of the events
+     * @since 1.0.0
+     */
 	public void setTriggerer() {
         this.jda.addEventListener(new BotListener(Mercure.INSTANCE));
 	}
 
+    /**
+     * Is this bot connected to a voice channeé
+     * @return boolean
+     * @since 1.0.0
+     */
     public boolean isVocalConnected(){
         if(voiceChannel == null){
             return false;
@@ -152,6 +250,11 @@ public class Bot {
         }
     }
 
+    /**
+     * Connect this bot to a voice channel
+     * @param voiceChannel The voice channel to connect
+     * @since 1.0.0
+     */
     public void connectToVocal(VoiceChannel voiceChannel){
         VoiceChannel channel = jda.getVoiceChannelById(voiceChannel.getId());
         AudioManager audioManager = channel.getGuild().getAudioManager();
@@ -159,6 +262,11 @@ public class Bot {
         this.voiceChannel = voiceChannel;
     }
 
+    /**
+     * Disconnect this bot from vocal channel
+     * @throws VoiceException
+     * @since 1.0.0
+     */
     public void disconnectFromVocal() throws VoiceException {
         stopSound();
         clearTracksList();
@@ -166,6 +274,11 @@ public class Bot {
         audioManager.closeAudioConnection();
     }
 
+    /**
+     * Get the music manager of this bot
+     * @return MusicManager (created if he doesn't exist)
+     * @since 1.0.0
+     */
     private MusicManager getMusicManager(){
         if(musicManager != null){
             return musicManager;
@@ -176,6 +289,12 @@ public class Bot {
         }
     }
 
+    /**
+     * Add a track to the bot
+     * @param track Track's URL
+     * @throws VoiceException Bot is not vocal connected
+     * @since 1.0.0
+     */
     public void addTrack(String track) throws VoiceException {
         if(this.voiceChannel != null){
             getMusicManager().loadTrack(voiceChannel, track);
@@ -184,6 +303,11 @@ public class Bot {
         }
     }
 
+    /**
+     * Skip the current track of the bot
+     * @throws VoiceException Bot is not vocal connected
+     * @since 1.0.0
+     */
     @SuppressWarnings("deprecation")
     public void skipTrack() throws VoiceException {
         if(this.voiceChannel != null){
@@ -199,6 +323,11 @@ public class Bot {
         }
     }
 
+    /**
+     * Clear the bot's tracks list
+     * @throws VoiceException Bot is not vocal connected
+     * @since 1.0.0
+     */
     public void clearTracksList() throws VoiceException {
         if(this.voiceChannel != null){
             MusicPlayer player = getMusicManager().getPlayer(voiceChannel.getGuild());
@@ -213,6 +342,11 @@ public class Bot {
         }
     }
 
+    /**
+     * Stop all sound of the bot
+     * @throws VoiceException Bot is not vocal connected
+     * @since 1.0.0
+     */
     public void stopSound() throws VoiceException {
         if(this.voiceChannel != null){
             getMusicManager().stopTracks(voiceChannel.getGuild());
@@ -222,6 +356,12 @@ public class Bot {
         }
     }
 
+    /**
+     * Get the bot's tracks list
+     * @return List of tracks (can be not clear)
+     * @throws VoiceException Bot is not vocal connected
+     * @since 1.0.0
+     */
     public List<AudioTrack> getTracksList() throws VoiceException {
         if(this.voiceChannel != null){
             MusicPlayer player = getMusicManager().getPlayer(voiceChannel.getGuild());

@@ -24,10 +24,6 @@ import java.util.List;
  */
 public class ListenerManager implements Listener {
 
-
-    
-
-
     /**
      * Mercure instance
      * 
@@ -70,7 +66,11 @@ public class ListenerManager implements Listener {
         return listeners;
     }
 
-
+    /**
+     * Get the bot that is the trigerer
+     * @return Bot's object
+     * @since 1.2.0
+     */
     public Bot getTrigerer() {
         return this.trigerer;
     }
@@ -78,7 +78,6 @@ public class ListenerManager implements Listener {
 
     /**
      * Register a listener
-     * 
      * @param listener Class to register
      * @since 1.0.0
      */
@@ -88,7 +87,6 @@ public class ListenerManager implements Listener {
 
     /**
      * Choose the listener's bot (the one who listen to Discord)
-     * 
      * @param name Bot's name
      * @param jda  Bot's JDA
      * @since 1.0.0
@@ -99,6 +97,11 @@ public class ListenerManager implements Listener {
         MercureLogger.log(MercureLogger.LogType.INFO, "Le bot " + bot.getName() + " est maitenant le triggerer");
     }
 
+    /**
+     * Execute actions when a bot is ready
+     * @param e Event
+     * @since 1.2.0
+     */
     @EventHandler
     public void onBotReady(BotReadyEvent e) {
         if (this.trigerer == null) {
@@ -108,6 +111,11 @@ public class ListenerManager implements Listener {
         }
     }
 
+    /**
+     * Execute actions when a bot is disconnected
+     * @param e Event
+     * @since 1.2.0
+     */
     @EventHandler
     public void onBotDisconnec(BotDisconnectEvent e) {
         if (this.isListener(e.getBot().getName())) {
@@ -122,6 +130,11 @@ public class ListenerManager implements Listener {
         }
     }
 
+    /**
+     * Execute actions when no more bots are ready
+     * @param e Event
+     * @since 1.2.0
+     */
     @EventHandler
     public void onNoMoreBot(NoMoreDiscordConnectedBot e){
         MercureLogger.log(LogType.WARN, "Il n'y a plus de bot connecté à Discord pour être le Trigerer");
@@ -149,6 +162,11 @@ public class ListenerManager implements Listener {
         this.listeners = new ArrayList<>();
     }
     
+    /**
+     * Perform a custom Mercure event
+     * @param event Custom event
+     * @since 1.2.0
+     */
     public void performCustomEvent(MercureEvent event){
         for(Listener listener : getListeners()){
             for(Method method : listener.getClass().getDeclaredMethods()){

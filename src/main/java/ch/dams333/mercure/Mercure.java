@@ -17,7 +17,7 @@ import java.util.*;
 
 /**
  * @author Dams333
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class Mercure implements Runnable {
 
@@ -78,12 +78,16 @@ public class Mercure implements Runnable {
     public MercureCommandFileParser mercureCommandFileParser;
 
     /**
+     * Mercure needs to starts all bots at starting
+     * @since 2.0.0
+     */
+    public static boolean startBots = false;
+
+    /**
      * Starting method of Mercure
      * @param args Java starting command's parameters
      * @since 1.0.0
      */
-
-    public static boolean startBots = false;
     public static void main(String[] args) {
         
         try {
@@ -172,7 +176,7 @@ public class Mercure implements Runnable {
     }
 
     /**
-     * Getting the pirncipal Mercure's configuration file
+     * Getting the main Mercure's configuration file
      * @return YAML file
      * @since 1.0.0
      */
