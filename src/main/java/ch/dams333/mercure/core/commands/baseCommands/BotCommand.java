@@ -7,6 +7,7 @@ import ch.dams333.mercure.core.commands.utils.MercureCommand;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.logger.ConsoleColors;
 import ch.dams333.mercure.utils.logger.MercureLogger;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -39,7 +40,7 @@ public class BotCommand implements CommandExecutor {
      * @since 1.0.0
      */
     @Override
-    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
+    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, Message message, String[] args) {
         return executeCommand(args);
     }
 
@@ -96,6 +97,14 @@ public class BotCommand implements CommandExecutor {
                     return true;
                 }
                 MercureLogger.log(MercureLogger.LogType.ERROR, "Format de commande invalide: !bot start <name>");
+                return true;
+            }
+            if(args[0].equalsIgnoreCase("startall")){
+                for(Bot bot : main.botsManager.getBots()){
+                    if(!bot.isConnectedToDiscord()){
+                        bot.connectToDiscord();
+                    }
+                }
                 return true;
             }
             if(args[0].equalsIgnoreCase("stop")){
@@ -194,7 +203,7 @@ public class BotCommand implements CommandExecutor {
                 return true;
             }
         }
-        MercureLogger.log(MercureLogger.LogType.ERROR, "Format de commande invalide: bot <show/create/delete/start/stop/presence/status>");
+        MercureLogger.log(MercureLogger.LogType.ERROR, "Format de commande invalide: bot <show/create/delete/startall/start/stop/presence/status>");
         return false;
     }
 }

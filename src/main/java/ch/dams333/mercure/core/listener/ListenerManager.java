@@ -6,6 +6,7 @@ import ch.dams333.mercure.core.listener.events.BotDisconnectEvent;
 import ch.dams333.mercure.core.listener.events.BotReadyEvent;
 import ch.dams333.mercure.core.listener.events.MercureEvent;
 import ch.dams333.mercure.core.listener.events.NoMoreDiscordConnectedBot;
+import ch.dams333.mercure.core.listener.events.UserCommandEvent;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.logger.MercureLogger.LogType;
@@ -165,6 +166,8 @@ public class ListenerManager implements Listener {
                 }
             }
         }
-
+        if(event instanceof UserCommandEvent){
+            ((UserCommandEvent)event).executeCommand();
+        }
     }
 }

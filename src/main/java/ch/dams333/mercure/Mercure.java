@@ -1,5 +1,6 @@
 package ch.dams333.mercure;
 
+import ch.dams333.mercure.core.bots.Bot;
 import ch.dams333.mercure.core.bots.BotsManager;
 import ch.dams333.mercure.core.commands.utils.CommandManager;
 import ch.dams333.mercure.core.commands.utils.MercureCommandFileParser;
@@ -7,6 +8,7 @@ import ch.dams333.mercure.core.listener.ListenerManager;
 import ch.dams333.mercure.core.plugins.PluginManager;
 import ch.dams333.mercure.core.plugins.pluginInteractions.PluginInteractionsManager;
 import ch.dams333.mercure.utils.logger.MercureLogger;
+import ch.dams333.mercure.utils.logger.MercureLogger.LogType;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
 
 import java.io.File;
@@ -16,7 +18,6 @@ import java.util.*;
 /**
  * @author Dams333
  * @version 1.0.0
- * @since 1.0.0
  */
 public class Mercure implements Runnable {
 
@@ -45,7 +46,6 @@ public class Mercure implements Runnable {
      * @since 1.0.0
      */
     private final Scanner scanner = new Scanner(System.in);
-
     /**
      * Mercure's commands' manager
      * @since 1.0.0
@@ -82,11 +82,18 @@ public class Mercure implements Runnable {
      * @param args Java starting command's parameters
      * @since 1.0.0
      */
+
+    public static boolean startBots = false;
     public static void main(String[] args) {
+        
         try {
             Mercure mercure = new Mercure();
+
             if(args.length > 0){
-                Mercure.consoleType = args[0];
+                for(int i = 0; i < args.length; i++){
+                    if(args[i].equalsIgnoreCase("debug")) Mercure.consoleType = args[i];
+                    if(args[i].equalsIgnoreCase("autostart")) Mercure.startBots = true;
+                }
             }
 
             Mercure.startingDate = new Date();
@@ -128,6 +135,12 @@ public class Mercure implements Runnable {
         commandManager.registerBaseCommands();
         botsManager.deserializeBots();
 
+        if(Mercure.startBots){
+            MercureLogger.log(LogType.INFO, "Démarrage automatique des bots...");
+            for(Bot bot : botsManager.getBots()){
+                bot.connectToDiscord();
+            }
+        }
 
         running = true;
         long millis = new Date().getTime() - startingDate.getTime();

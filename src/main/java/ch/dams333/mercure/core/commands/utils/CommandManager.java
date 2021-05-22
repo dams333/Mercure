@@ -2,6 +2,7 @@ package ch.dams333.mercure.core.commands.utils;
 
 import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.core.commands.baseCommands.*;
+import ch.dams333.mercure.core.listener.events.UserCommandEvent;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -99,7 +100,7 @@ public class CommandManager {
     public void registerCommand(String name, CommandExecutor executor) {
         if(isCommand(name)){
             executors.put(getCommand(name), executor);
-            MercureLogger.log(MercureLogger.LogType.INFO, "La commande " + name + " a été enregistrée avec succès par le système");
+            MercureLogger.log(MercureLogger.LogType.SUCESS, "La commande " + name + " a été enregistrée avec succès par le système");
             return;
         }
         MercureLogger.log(MercureLogger.LogType.ERROR, "La commande " + name + " n'existe pas. Elle n'a donc pas pu être enregistrée pas le système");
@@ -182,6 +183,12 @@ public class CommandManager {
         return false;
     }
 
+
+    public Map<MercureCommand,CommandExecutor> getExecutors() {
+        return this.executors;
+    }
+
+
     /**
      * User performed a command
      * @param event By a bot detected event
@@ -199,7 +206,8 @@ public class CommandManager {
                 for(int i = 1; i < argsWithName.length; i++){
                     args[i - 1] = argsWithName[i];
                 }
-                executors.get(command).onUserCommand(command, event.getAuthor(), event.getTextChannel(), args);
+                UserCommandEvent commandEvent = new UserCommandEvent(command, event.getAuthor(), event.getTextChannel(), event.getMessage(), args);
+                main.listenerManager.performCustomEvent(commandEvent);
             }
             return;
         }
@@ -218,20 +226,22 @@ public class CommandManager {
         MercureCommand command = getCommand(name);
         if(command.getPermissions().contains("all") || command.getPermissions().contains("user")){
             for(String perm : command.getPermissions()){
-                if(perm.startsWith("role:")){
-                    String roleID = perm.split(":")[1];
-                    boolean hasRole = false;
-                    for (Role role : user.getJDA().getRoles()) {
-                        if(role.getId().equalsIgnoreCase(roleID)){
-                            hasRole = true;
+                if(perm != null){
+                    if(perm.startsWith("role:")){
+                        String roleID = perm.split(":")[1];
+                        boolean hasRole = false;
+                        for (Role role : user.getJDA().getRoles()) {
+                            if(role.getId().equalsIgnoreCase(roleID)){
+                                hasRole = true;
+                            }
                         }
-                    }
-                    if(!hasRole){
-                        EmbedBuilder embedBuilder = new EmbedBuilder();
-                        embedBuilder.setDescription(noPermission);
-                        textChannel.sendMessage(embedBuilder.build()).queue();
-                        MercureLogger.log(MercureLogger.LogType.ERROR, user.getName() + " n'a pas la permission d'utiliser cette commande");
-                        return false;
+                        if(!hasRole){
+                            EmbedBuilder embedBuilder = new EmbedBuilder();
+                            embedBuilder.setDescription(noPermission);
+                            textChannel.sendMessage(embedBuilder.build()).queue();
+                            MercureLogger.log(MercureLogger.LogType.WARN, user.getName() + " n'a pas la permission d'utiliser cette commande");
+                            return false;
+                        }
                     }
                 }
             }
@@ -240,7 +250,7 @@ public class CommandManager {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setDescription(noPermission);
         textChannel.sendMessage(embedBuilder.build()).queue();
-        MercureLogger.log(MercureLogger.LogType.ERROR, user.getName() + " n'a pas la permission d'utiliser cette commande");
+        MercureLogger.log(MercureLogger.LogType.WARN, user.getName() + " n'a pas la permission d'utiliser cette commande");
         return false;
     }
 

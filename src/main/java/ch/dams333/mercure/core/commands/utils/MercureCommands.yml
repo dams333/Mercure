@@ -14,6 +14,7 @@ bot:
     - "!bot create <name> <token> - Ajoute un bot à Mercure"
     - "!bot delete <name> - Retire un bot de Mercure"
     - "!bot start <name> - Démarre er connecte le bot à Discord"
+    - "!bot startall - Démarre tous les bots"
     - "!bot stop <name> - Éteint er déconnecte le bot de Discord"
     - "!bot presence <name> <online|dnd|idle|offline> - Change la présence du bot"
     - "!bot status <name> <message> - Change le message de status du bot"

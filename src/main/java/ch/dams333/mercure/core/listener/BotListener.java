@@ -1,7 +1,6 @@
 package ch.dams333.mercure.core.listener;
 
 import ch.dams333.mercure.Mercure;
-import ch.dams333.mercure.core.listener.events.jdaCustomEvents.ReceiveMessageEvent;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -55,12 +54,8 @@ public class BotListener implements net.dv8tion.jda.api.hooks.EventListener{
             }
             if(((MessageReceivedEvent) event).getMessage().getContentDisplay().startsWith(main.commandManager.getTag())){
                 main.commandManager.userCommand((MessageReceivedEvent) event);
+                return;
             }
-        }
-        
-        if(event instanceof MessageReceivedEvent){
-            MessageReceivedEvent e = (MessageReceivedEvent) event;
-            main.listenerManager.performCustomEvent(new ReceiveMessageEvent(main.listenerManager.getTrigerer(), e.getAuthor(), e.getGuild(), e.getTextChannel(), e.getMessageId(), e.getMessage()));
         }
 
         for(Listener listener : main.listenerManager.getListeners()){

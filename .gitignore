@@ -8,3 +8,4 @@ target
 .project
 .settings
 secret.yml
+web_server

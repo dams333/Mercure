@@ -164,7 +164,7 @@ public class PluginManager {
             mercurePlugin.setName(name);
             mercurePlugin.onLoad();
 
-            MercureLogger.log(MercureLogger.LogType.INFO, "Le plugin " + name + " a été chargé");
+            MercureLogger.log(MercureLogger.LogType.SUCESS, "Le plugin " + name + " a été chargé");
 
             pluginInformations.add(new MercurePluginInformation(name, description, author, version, mainClassPath, mercurePlugin, loader, jar));
         }
@@ -194,7 +194,7 @@ public class PluginManager {
             } catch (IOException e) {
                 MercureLogger.log("Impossible d'arrêter le plugin" + info.getName(), e);
             }
-            MercureLogger.log(MercureLogger.LogType.INFO, "Le plugin " + info.getName() + " a été déchargé avec succès");
+            MercureLogger.log(MercureLogger.LogType.SUCESS, "Le plugin " + info.getName() + " a été déchargé avec succès");
         }
     }
 

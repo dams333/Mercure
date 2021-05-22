@@ -46,7 +46,7 @@ public class MercureLogger {
         Date date = new Date();
         SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
 
-        System.out.println("[" + formater.format(date) + "] " + LogType.ERROR.getColor() + LogType.ERROR.getName() + " - " + ConsoleColors.RESET + message);
+        System.out.println("[" + formater.format(date) + "] " + LogType.ERROR.getColor() + LogType.ERROR.getName() + ConsoleColors.RESET + " - " + ConsoleColors.RESET + message);
 
         if(Mercure.consoleType.equalsIgnoreCase("debug")){
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class MercureLogger {
                 }
             }
 
-            System.out.println("[" + formater.format(date) + "] " + logType.getColor() + logType.getName() + " - " + ConsoleColors.BLUE + pluginName + ConsoleColors.RESET + " - " + message);
+            System.out.println("[" + formater.format(date) + "] " + logType.getColor() + logType.getName() + ConsoleColors.RESET + " - " + ConsoleColors.BLUE + pluginName + ConsoleColors.RESET + " - " + message);
         }
     }
 
@@ -89,7 +89,7 @@ public class MercureLogger {
         Date date = new Date();
         SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
 
-        System.out.println("[" + formater.format(date) + "] " + LogType.ERROR.getColor() + LogType.ERROR.getName() + " - " + ConsoleColors.BLUE + pluginName + ConsoleColors.RESET + " - " + message);
+        System.out.println("[" + formater.format(date) + "] " + LogType.ERROR.getColor() + LogType.ERROR.getName() + ConsoleColors.RESET + " - " + ConsoleColors.BLUE + pluginName + ConsoleColors.RESET + " - " + message);
 
         if(Mercure.consoleType.equalsIgnoreCase("debug")){
             e.printStackTrace();

@@ -6,6 +6,7 @@ import ch.dams333.mercure.core.commands.utils.MercureCommand;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -39,7 +40,7 @@ public class HelpCommand implements CommandExecutor {
      * @since 1.0.0
      */
     @Override
-    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
+    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, Message message, String[] args) {
         if(args.length != 1){
             printGlobalHelp(textChannel);
         }else{
@@ -95,12 +96,14 @@ public class HelpCommand implements CommandExecutor {
         embedBuilder.setDescription("Liste des commandes disponibles avec Mercure :");
         StringBuilder sb = new StringBuilder();
         for(MercureCommand command : main.commandManager.getCommands()){
-            sb.append(":white_small_square: ");
-            sb.append(main.commandManager.getTag());
-            sb.append(command.getName());
-            sb.append(" : ");
-            sb.append(command.getDescription());
-            sb.append("\n");
+            if(command.getPermissions().contains("user") || command.getPermissions().contains("all")){
+                sb.append(":white_small_square: ");
+                sb.append(main.commandManager.getTag());
+                sb.append(command.getName());
+                sb.append(" : ");
+                sb.append(command.getDescription());
+                sb.append("\n");
+            }
         }
         embedBuilder.addField("", sb.toString(), false);
         try {

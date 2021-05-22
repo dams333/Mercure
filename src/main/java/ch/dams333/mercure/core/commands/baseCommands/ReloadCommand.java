@@ -4,6 +4,7 @@ import ch.dams333.mercure.Mercure;
 import ch.dams333.mercure.core.commands.utils.CommandExecutor;
 import ch.dams333.mercure.core.commands.utils.MercureCommand;
 import ch.dams333.mercure.utils.logger.MercureLogger;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -36,7 +37,7 @@ public class ReloadCommand implements CommandExecutor {
      * @since 1.0.0
      */
     @Override
-    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
+    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, Message message, String[] args) {
         return false;
     }
 

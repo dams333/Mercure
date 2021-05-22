@@ -7,6 +7,7 @@ import ch.dams333.mercure.core.plugins.MercurePluginInformation;
 import ch.dams333.mercure.utils.exceptions.NoBotException;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -41,7 +42,7 @@ public class MercureHelpCommand implements CommandExecutor {
      * @since 1.0.0
      */
     @Override
-    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, String[] args) {
+    public boolean onUserCommand(MercureCommand command, User user, TextChannel textChannel, Message message,  String[] args) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor("Mercure app");
         embedBuilder.setColor(Color.BLUE);
@@ -86,7 +87,7 @@ public class MercureHelpCommand implements CommandExecutor {
             sec = diffsec + " sec";
         }
         embedBuilder.addField("En cours d'éxecution depuis :", day + " " + hour + " " + min + " " + sec, false);
-        embedBuilder.addField("", "Mercure a été créé par Dams333", false);
+        embedBuilder.addField("", "Mercure a été créé par Dams333, d'après le concept Hermès de Grimille", false);
         try {
             main.botsManager.getRandomBot(true).sendEmbed(embedBuilder, textChannel);;
         } catch (NoBotException e) {
