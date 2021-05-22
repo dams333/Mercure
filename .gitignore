@@ -9,3 +9,5 @@ target
 .settings
 secret.yml
 web_server
+doc
+.gitignore
