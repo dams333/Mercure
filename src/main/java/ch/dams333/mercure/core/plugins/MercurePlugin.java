@@ -7,12 +7,13 @@ import ch.dams333.mercure.utils.logger.MercureLogger.LogType;
 import ch.dams333.mercure.utils.yaml.YAMLConfiguration;
 
 import java.io.File;
+import java.sql.PreparedStatement;
 
 /**
  * Abstract class of all Mercure's plugins
  * @see MercurePlugin
  * @author Dams333
- * @version 1.0.1
+ * @version 1.0.2
  */
 public abstract class MercurePlugin {
 
@@ -117,5 +118,16 @@ public abstract class MercurePlugin {
      */
     public void log(String message, Exception e){
         MercureLogger.log(this.name, message, e);
+    }
+
+    /**
+     * Prepare a statement for this plugin
+     * @param sql Statement
+     * @param values Values of the statement
+     * @return Prepared Statement for this plugin
+     * @since 1.0.2
+     */
+    public PreparedStatement prepareStatement(String sql, Object... values){
+        return main.sqlManager.prepareStatement(this.name + "_plugin", sql, values);
     }
 }

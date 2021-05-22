@@ -6,6 +6,7 @@ import ch.dams333.mercure.core.commands.utils.CommandManager;
 import ch.dams333.mercure.core.commands.utils.MercureCommandFileParser;
 import ch.dams333.mercure.core.listener.ListenerManager;
 import ch.dams333.mercure.core.plugins.PluginManager;
+import ch.dams333.mercure.core.plugins.SQL.SqlManager;
 import ch.dams333.mercure.core.plugins.pluginInteractions.PluginInteractionsManager;
 import ch.dams333.mercure.utils.logger.MercureLogger;
 import ch.dams333.mercure.utils.logger.MercureLogger.LogType;
@@ -17,7 +18,7 @@ import java.util.*;
 
 /**
  * @author Dams333
- * @version 2.0.0
+ * @version 2.0.1
  */
 public class Mercure implements Runnable {
 
@@ -84,6 +85,12 @@ public class Mercure implements Runnable {
     public static boolean startBots = false;
 
     /**
+     * Plugins's SQL manager
+     * @since 2.0.1
+     */
+    public SqlManager sqlManager;
+
+    /**
      * Starting method of Mercure
      * @param args Java starting command's parameters
      * @since 1.0.0
@@ -126,6 +133,7 @@ public class Mercure implements Runnable {
         mercureCommandFileParser = new MercureCommandFileParser(this);
         mercureCommandFileParser.parse();
         pluginManager = new PluginManager(this);
+        sqlManager = new SqlManager(this);
 
 
         try {
@@ -162,6 +170,8 @@ public class Mercure implements Runnable {
 
         pluginManager.disablePlugins();
         botsManager.disconnectAllBots();
+        sqlManager.closeConnections();
+
 
         MercureLogger.log(MercureLogger.LogType.SUCESS, "Mercure éteint avec succès");
         System.exit(0);
